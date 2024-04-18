@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios'
 
 const token = localStorage.getItem("token");
 const accessToken = token ? token : null; // No need to parse as JSON
