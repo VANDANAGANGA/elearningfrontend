@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useRef } from 'react';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
+import instance from '../../routes/axios';
 
 
 function Salesreport() {
@@ -34,7 +35,8 @@ function Salesreport() {
       }, [data, filterOption]); // Re-filter data when the data or filterOption changes
     
       const fetchData = () => {
-        axios.get('http://localhost:8000/api/salesreport/')
+        // axios.get('http://localhost:8000/api/salesreport/')
+        instance.get('salesreport/')
           .then(response => {
             setData(response.data);
             setFilteredData(response.data); // Initialize filtered data with fetched data

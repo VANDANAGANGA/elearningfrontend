@@ -4,13 +4,14 @@ import { useSelector } from 'react-redux';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect } from 'react';
+import instance from '../../routes/axios';
+import { baseUrl } from '../../utils/urls';
 
 function Navbar() {
   const navigate=useNavigate()
   const [profilePic,setProfilePic]=useState()
   const user = useSelector(state => state.authUser.user); // Accessing user details from Redux store
-  console.log(user)
-
+  
    const handleLogout =()=>{
     localStorage.removeItem('token')
     navigate('/')
@@ -18,7 +19,7 @@ function Navbar() {
    useEffect(() => {
     const fetchProfilePic = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/profilepic/', {
+        const response = await instance.get('profilepic/', {
           params: { id: user?.id },
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -44,19 +45,15 @@ function Navbar() {
           </div>
           <div className="flex items-center justify-center  h-[85px] w-[300px]" >
           <div className='pr-4'>
-          <h4>Welcome {user.name.toUpperCase()}</h4>
+          <h4>Welcome {user?.name?.toUpperCase()}</h4>
          </div>
          <div> 
-         < Avatar size="60" round={true} src={`http://localhost:8000${profilePic}`}/>
+         < Avatar size="60" round={true} src={`${baseUrl}${profilePic}`}/>
          </div> 
          <div className='pl-4'> 
            <button onClick={handleLogout}>Logout</button>
-         </div> 
-         
+         </div>      
           </div>
-          {/* <button className='toggle' onClick={() => setClick(!click)}>
-            {click ? <i className='fa fa-times'> </i> : <i className='fa fa-bars'></i>}
-          </button> */}
         </nav>
       </header>
   )

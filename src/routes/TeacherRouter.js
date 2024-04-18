@@ -7,7 +7,6 @@ import Assignments from "../components/Teacher/Assignments";
 import Quiz from "../components/Teacher/Quiz";
 import AllAssignments from "../components/Teacher/AllAssignments";
 import AllQuiz from "../components/Teacher/AllQuiz";
-import MasterClass from "../components/Teacher/MasterClass";
 import Shedule from "../components/Teacher/Shedule";
 import Profile from "../components/Teacher/Profile";
 import ChatRoom from "../components/Teacher/ChatRoom";
@@ -51,10 +50,7 @@ const teacherRoutes = [
         path: "allquiz",
         element: <AllQuiz/>,
       },
-      {
-        path: "masterclasses",
-        element: <MasterClass/>,
-      },
+    
       {
         path: "shedule",
         element: <Shedule/>,

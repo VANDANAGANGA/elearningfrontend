@@ -9,6 +9,8 @@ import { IoIosAttach } from "react-icons/io";
 import { FaQuestionCircle } from "react-icons/fa";
 import { MdQuiz } from "react-icons/md";
 import jsPDF from 'jspdf';
+import instance from '../../routes/axios';
+import { baseUrl } from '../../utils/urls';
 
 // pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 //   'pdfjs-dist/build/pdf.worker.min.js',
@@ -35,7 +37,7 @@ function StudentQuiz() {
 
       useEffect(()=>{
     
-        axios.get('http://localhost:8000/api/studentquiz/',{ params: { id: course,student_id:user?.role_id } })
+        instance.get('studentquiz/',{ params: { id: course,student_id:user?.role_id } })
         .then((response) => {
           setQuiz(response.data);
           console.log(response.data)
@@ -145,7 +147,7 @@ function StudentQuiz() {
     response:pdfBlob,
     }
     console.log('i am here')
-    axios.post('http://localhost:8000/api/studentquiz/',formData, {
+    instance.post('studentquiz/',formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -276,7 +278,7 @@ function StudentQuiz() {
             <button className='absolute top-4 right-4 text-red-400 text-3xl' onClick={() => setResponse(null)}>
               X
             </button>
-            <Document file={`http://localhost:8000${response}`} onLoadSuccess=''>
+            <Document file={`${baseUrl}${response}`} onLoadSuccess=''>
               <Page pageNumber={1} />
             </Document>
           </div>

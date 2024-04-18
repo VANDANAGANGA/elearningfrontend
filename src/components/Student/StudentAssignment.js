@@ -8,6 +8,8 @@ import { Document, Page } from 'react-pdf';
 import { IoIosAttach } from "react-icons/io";
 import { FaQuestionCircle } from "react-icons/fa";
 import { FaFileAlt } from "react-icons/fa";
+import instance from '../../routes/axios';
+import { baseUrl } from '../../utils/urls';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
@@ -45,7 +47,7 @@ function StudentAssignments() {
         student:user?.role_id,
         answer:filename
         }
-        axios.post('http://localhost:8000/api/studentassignment/',formData, {
+        instance.post('studentassignment/',formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
             },
@@ -73,7 +75,7 @@ function StudentAssignments() {
      
       useEffect(()=>{
     
-        axios.get('http://localhost:8000/api/studentassignment/',{ params: { id: course,student_id:user?.role_id } })
+        instance.get('studentassignment/',{ params: { id: course,student_id:user?.role_id } })
         .then((response) => {
           setAssignemnt(response.data);
           console.log(response.data)
@@ -101,7 +103,7 @@ function StudentAssignments() {
             <button className='absolute top-4 right-4 text-red-400 text-3xl' onClick={() => setQuestion(null)}>
               X
             </button>
-            <Document file={`http://localhost:8000${question}`} onLoadSuccess=''>
+            <Document file={`${baseUrl}${question}`} onLoadSuccess=''>
               <Page pageNumber={1} />
             </Document>
           </div>

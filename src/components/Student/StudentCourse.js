@@ -10,6 +10,7 @@ import { MdDateRange } from "react-icons/md";
 import { useSelector,useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import { addCourse } from '../../Store/courseSlice';
+import instance from '../../routes/axios';
 
 function StudentCourse() {
   const[data, setData] = useState([]);
@@ -30,7 +31,7 @@ function StudentCourse() {
   useEffect(() => {
        console.log('teacher_id',user.role_id)
       if (user){
-{       axios.get('http://localhost:8000/api/studentcourse/',{ params: { id: user?.role_id } })
+{       instance.get('studentcourse/',{ params: { id: user?.role_id } })
         .then(response => {
           console.log(response)
           setData(response.data);

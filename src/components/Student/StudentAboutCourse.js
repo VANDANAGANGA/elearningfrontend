@@ -7,6 +7,8 @@ import { MdDateRange } from "react-icons/md";
 import { IoMdPricetags } from "react-icons/io";
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import instance from '../../routes/axios';
+import { baseUrl } from '../../utils/urls';
 
 
 function StudentAboutCourse() {
@@ -16,7 +18,7 @@ function StudentAboutCourse() {
   
   useEffect(()=>{
     
-    axios.get('http://localhost:8000/api/studentcoursedetails/',{ params: { id: course } })
+    instance.get('studentcoursedetails/',{ params: { id: course } })
     .then((response) => {
       setAbout(response.data);
       console.log('about:',response.data)
@@ -54,7 +56,7 @@ function StudentAboutCourse() {
         <h1 className='font-semibold text-black text-lg mb-2'> About Teacher</h1>
         <div className='flex items-center space-between'>
          <div className='bg-black w-[200px] h-[200px] mr-6 '>
-         <img src={`http://localhost:8000${about.teacher.profile_pic}`} alt="Teacher Profile" className="profile-pic"  style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+         <img src={`${baseUrl}${about.teacher.profile_pic}`} alt="Teacher Profile" className="profile-pic"  style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
          </div>
          <div className='text-black text-lg ml-6'>
          <h4 className='text-xl'>{about.teacher.full_name}</h4>

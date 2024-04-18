@@ -16,6 +16,8 @@ import { UserOutlined } from '@ant-design/icons';
 import { GoUnverified } from "react-icons/go";
 import { MdVerified } from "react-icons/md";
 import { FaFilePdf } from "react-icons/fa";
+import { baseUrl } from '../../utils/urls';
+import instance from '../../routes/axios';
 
 
 
@@ -32,7 +34,7 @@ function AllQuiz() {
          title: "Name",
          render: (record) => (
            <Space>
-             <Avatar src={`http://127.0.0.1:8000${record.profile_pic}`} alt="Avatar" icon={<UserOutlined />} />
+             <Avatar src={`${baseUrl}${record.profile_pic}`} alt="Avatar" icon={<UserOutlined />} />
              <span>{record.full_name}</span>
            </Space>
          ),
@@ -77,7 +79,7 @@ function AllQuiz() {
     console.log("user:",user)
     useEffect(()=>{
     
-        axios.get('http://localhost:8000/api/teacherallquiz/',{ params: { id: user.role_id } })
+        instance.get('teacherallquiz/',{ params: { id: user.role_id } })
         .then((response) => {
          setQuiz(response.data);
           console.log(response.data)

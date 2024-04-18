@@ -10,6 +10,7 @@ import { MdDateRange } from "react-icons/md";
 import { useSelector,useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import { addCourse } from '../../Store/courseSlice';
+import instance from '../../routes/axios';
 
 function TeacherCourse() {
   const[data, setData] = useState([]);
@@ -44,7 +45,7 @@ function TeacherCourse() {
     }).then((result) => {
       if (result.isConfirmed) {
         // User confirmed deletion, send Axios request
-        axios.delete('http://localhost:8000/api/courses/',{ params: { id: courseId } })
+        instance.delete('courses/',{ params: { id: courseId } })
           .then(response => {
             Swal.fire(
               'Deleted!',
@@ -69,7 +70,7 @@ function TeacherCourse() {
   useEffect(() => {
        console.log('teacher_id',user?.role_id)
       if (user){
-       axios.get('http://localhost:8000/api/teachercourses/',{ params: { id: user?.role_id } })
+       instance.get('teachercourses/',{ params: { id: user?.role_id } })
         .then(response => {
           console.log(response)
           setData(response.data);
@@ -82,7 +83,7 @@ function TeacherCourse() {
     }, [user,counter]);
     
     useEffect(() => {
-      axios.get('http://localhost:8000/api/coursecategory/') // Replace with your actual API endpoint
+      instance.get('coursecategory/') // Replace with your actual API endpoint
         .then(response => {
           setCategories(response.data);
         })
@@ -105,7 +106,7 @@ function TeacherCourse() {
       };
     
       console.log(formData)
-        axios.post('http://localhost:8000/api/courses/', formData)
+        instance.post('courses/', formData)
           .then(response => {
             if (response.data) {
               // Display a SweetAlert with a success message

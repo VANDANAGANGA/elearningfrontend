@@ -3,6 +3,7 @@ import Category from '../Main/Category'
 import { useState,useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import instance from '../../routes/axios';
 
 
 function AdminCategory() {
@@ -13,8 +14,10 @@ function AdminCategory() {
   const[counter,setCounter]=useState(0)
 
   useEffect(() => {
-      // Make an Axios GET request to your Django API endpoint
-      axios.get('http://localhost:8000/api/coursecategory/')
+    
+      instance.get('coursecategory/')
+      // // Make an Axios GET request to your Django API endpoint
+      // axios.get('http://localhost:8000/api/coursecategory/')
         .then(response => {
           // Once data is fetched, update the 'online' state with the data
           setOnline(response.data);
@@ -35,7 +38,8 @@ function AdminCategory() {
       };
     
       console.log(formData)
-        axios.post('http://localhost:8000/api/coursecategory/', formData)
+      instance.post('coursecategory/',formData)
+        // axios.post('http://localhost:8000/api/coursecategory/', formData)
           .then(response => {
             if (response.data && response.data.success) {
               // Display a SweetAlert with a success message
@@ -66,7 +70,8 @@ function AdminCategory() {
     }
 
     const handleDelete = (categoryId) => {
-      axios.delete('http://localhost:8000/api/coursecategory/', { id: categoryId })
+      instance.delete('coursecategory/',{id:categoryId})
+      // axios.delete('http://localhost:8000/api/coursecategory/', { id: categoryId })
         .then(response => {
           // Filter out the deleted category from the online state
           setCounter((prevCounter) => prevCounter + 1); 

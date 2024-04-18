@@ -6,6 +6,8 @@ import Swal from 'sweetalert2';
 import { Avatar,Space } from 'antd';
 import { UserOutlined,StarFilled } from '@ant-design/icons';
 import Modal from 'react-modal';
+import instance from '../../routes/axios';
+import  baseUrl  from '../../utils/urls';
 
 function AdminCourses() {
   const [online, setOnline] = useState([]);
@@ -16,8 +18,9 @@ function AdminCourses() {
   const [isEditSuccessful, setIsEditSuccessful] = useState(0);
 
   useEffect(() => {
+    instance.get('admincourse/')
       // Make an Axios GET request to your Django API endpoint
-      axios.get('http://localhost:8000/api/admincourse/')
+      // axios.get('http://localhost:8000/api/admincourse/')
         .then(response => {
           // Once data is fetched, update the 'online' state with the data
           setOnline(response.data);
@@ -44,7 +47,8 @@ function AdminCourses() {
     
       const handleEdit = async () => {
         try {
-          const response = await axios.put('http://127.0.0.1:8000/api/admincourse/', { id: modalCourseId });
+          const response = await  instance.put('admincourse/',{id:modalCourseId})
+          // axios.put('http://127.0.0.1:8000/api/admincourse/', { id: modalCourseId });
           console.log('Course updated successfully', response.data);
           setIsModalVisible(false);
           setIsEditSuccessful((prevCounter) => prevCounter + 1); 
@@ -97,9 +101,9 @@ function AdminCourses() {
     {online.map(course => (
      <div className="bg-white shadow-md mb-2 rounded  transition-transform transform hover:scale-105">
       <div className='bg-cyan-400 w-full h-2/5 rounded flex relative'>
-      <div className="max-w-[200px] max-h-[200px] items-front mt-auto ml-4">
-      <Avatar src={`http://127.0.0.1:8000${course.profile_pic}`} alt="Avatar" icon={<UserOutlined />} />
-</div>
+      <div className="max-w-[400px] max-h-[400px] items-front mt-auto ml-4">
+      <Avatar  src={`data:image/jpeg;base64, ${course.profile_pic}`} alt="Avatar" icon={<UserOutlined />} />
+      </div>
         <div className="absolute top-0 right-0  overflow-hidden">
             <div className='px-10 py-.5 pt-1.5'>
             <img

@@ -55,11 +55,11 @@ const handleLogout =()=>{
             icon:<FaUserAlt/>
         },
         
-        {
-            name:"Logout",
-            icon:<FaChevronCircleDown/>,
-            onClick: handleLogout
-        }
+        // {
+        //     name:"Logout",
+        //     icon:<FaChevronCircleDown/>,
+        //     onClick: handleLogout
+        // }
     ]
     return (
         <div className="flex ml-6">
@@ -75,6 +75,11 @@ const handleLogout =()=>{
                        </NavLink>
                    ))
                }
+               <div className="flex items-center p-6 w-[300px]" onClick={handleLogout} style={{ cursor: 'pointer' }}>
+        <div className="text-lg"><FaChevronCircleDown /></div>
+        <div className="text-lg text-bold pl-2">Logout</div>
+       
+    </div>
            </div>
            <main>{children}</main>
         </div>

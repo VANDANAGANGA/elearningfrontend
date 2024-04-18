@@ -6,6 +6,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import instance from '../../routes/axios';
 
 
 function Course() {
@@ -29,7 +30,7 @@ function Course() {
 
       useEffect(() => {
         // Make an Axios GET request to your Django API endpoint
-        axios.get('http://localhost:8000/api/courses/')
+        instance.get('courses/')
           .then(response => {
             // Once data is fetched, update the 'online' state with the data
             console.log(response.data)

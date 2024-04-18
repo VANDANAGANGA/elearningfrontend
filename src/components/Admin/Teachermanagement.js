@@ -7,6 +7,8 @@ import { Avatar,Space } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import Modal from 'react-modal';
 import { PiStudentFill } from "react-icons/pi";
+import instance from '../../routes/axios';
+import {baseUrl} from '../../utils/urls';
 
 
 function Teachermanagement() {
@@ -37,7 +39,7 @@ function Teachermanagement() {
       title: "Name",
       render: (record) => (
         <Space>
-          <Avatar src={`http://127.0.0.1:8000${record.teacher.profile_pic}`} alt="Avatar" icon={<UserOutlined />} />
+          <Avatar src={`${baseUrl}${record.teacher.profile_pic}`} alt="Avatar" icon={<UserOutlined />} />
           <span>{record.teacher.full_name}</span>
         </Space>
       ),
@@ -124,7 +126,8 @@ function Teachermanagement() {
    useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/teachermanagement/');
+        const response = await instance.get('teachermanagement/')
+        // axios.get('http://127.0.0.1:8000/api/teachermanagement/');
         setDataSource(response.data);
         console.log(response.data)
       } catch (error) {
@@ -143,7 +146,8 @@ function Teachermanagement() {
   
     const handleEdit = async () => {
       try {
-        const response = await axios.put('http://127.0.0.1:8000/api/teachermanagement/', { id: modalUserId });
+        const response = await  instance.put('teachermanagement/',{id:modalUserId})
+        // axios.put('http://127.0.0.1:8000/api/teachermanagement/', { id: modalUserId });
         console.log('User updated successfully', response.data);
         setIsModalVisible(false);
         setIsEditSuccessful((prevCounter) => prevCounter + 1); 

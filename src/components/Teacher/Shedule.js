@@ -10,6 +10,7 @@ import { MdDateRange } from "react-icons/md";
 import { useSelector,useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import { addCourse } from '../../Store/courseSlice';
+import instance from '../../routes/axios';
 
 function Shedule() {
   const[data, setData] = useState([]);
@@ -29,7 +30,7 @@ function Shedule() {
 
   const handleComplete = (sheduleId) =>{
     console.log('iam here',sheduleId);
-    axios.put('http://localhost:8000/api/shedule/',null,{ params: { id: sheduleId } })
+    instance.put('shedule/',null,{ params: { id: sheduleId } })
     .then(response => {
       console.log(response)
       setCounter((prevCounter) => prevCounter + 1);
@@ -44,7 +45,7 @@ function Shedule() {
   useEffect(() => {
        console.log('teacher_id',user.role_id)
       
-       axios.get('http://localhost:8000/api/shedule/',{ params: { id: user?.role_id } })
+       instance.get('shedule/',{ params: { id: user?.role_id } })
         .then(response => {
           console.log(response)
           setData(response.data);
@@ -86,7 +87,7 @@ function Shedule() {
       };
     
       console.log(formData)
-        axios.post('http://localhost:8000/api/shedule/', formData)
+        instance.post('shedule/', formData)
           .then(response => {
             if (response.data) {
               // Display a SweetAlert with a success message

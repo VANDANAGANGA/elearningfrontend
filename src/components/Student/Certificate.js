@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux'
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import instance from '../../routes/axios';
 
 
 function Certificate() {
@@ -19,10 +20,12 @@ function Certificate() {
 
 
     useEffect(() => {
-      axios.get('http://localhost:8000/api/coursecertificate/', { params: { course: course, id: user?.role_id } })
+      // axios.get('http://localhost:8000/api/coursecertificate/', { params: { course: course, id: user?.role_id } })
+      instance.get('coursecertificate/',{params:{course:course,id:user?.role_id }})
           .then((response) => {
               if (response.data.message === "No certificate exist.") {
-                  axios.get('http://localhost:8000/api/coursecompletion/', { params: { id: courseId, student_id: user?.role_id } })
+                  // axios.get('http://localhost:8000/api/coursecompletion/', { params: { id: courseId, student_id: user?.role_id } })
+                  instance.get('coursecompletion/',{params:{id: courseId,student_id:user?.role_id}})
                       .then((response) => {
                           console.log(response.data);
                           if (parseFloat(response.data) > 80) {
@@ -34,7 +37,8 @@ function Certificate() {
                               };
                               if (formdata) {
                                 console.log(formdata)
-                                  axios.post('http://localhost:8000/api/coursecertificate/', formdata)
+                                  // axios.post('http://localhost:8000/api/coursecertificate/', formdata)
+                                  instance.post('coursecertificate/',formdata)
                                       .then((response) => {
                                           console.log(response.data);
                                           setCounter((prevCounter) => prevCounter + 1); 
@@ -62,7 +66,8 @@ function Certificate() {
 
     useEffect(() => {
     
-        axios.get('http://localhost:8000/api/coursedetailsmain/',{ params: { id: courseId } })
+        // axios.get('http://localhost:8000/api/coursedetailsmain/',{ params: { id: courseId } })
+        instance.get('coursedetailsmain/',{params:{id:courseId}})
           .then(response => {
             // Once data is fetched, update the 'online' state with the data
             console.log(response.data)

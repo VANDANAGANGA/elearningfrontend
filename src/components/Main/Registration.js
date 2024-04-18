@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../../Store/registerSlice';
 import { FaCheckCircle } from "react-icons/fa";
+import instance from '../../routes/axios';
 
 
 
@@ -71,7 +72,7 @@ const Registration = () => {
     if (otp.length === 4 && !verifyingOTP) {
       console.log(otp)
       setVerifyingOTP(true); // Set verifyingOTP to true to prevent further verification attempts
-      axios.post('http://localhost:8000/api/verify-otp/', { email, otp })
+      instance.post('verify-otp/', { email, otp })
         .then((response) => {
           console.log(response.data);
           if (response.data.message === 'OTP verified successfully') {
@@ -95,7 +96,7 @@ const Registration = () => {
   
   const handleResendOTP = () => {
     console.log('i am here')
-    axios.post('http://localhost:8000/api/generate-otp/', { email })
+    instance.post('generate-otp/', { email })
       .then(response => {
         
         setCounter(60);

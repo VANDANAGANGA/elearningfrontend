@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../../Store/authSlice';
 import Swal from 'sweetalert2';
+import instance from '../../routes/axios';
 
 
 
@@ -59,7 +60,7 @@ const Login =()=> {
         password
     }
     try {
-        const response = await axios.post('http://localhost:8000/api/login/',data)
+        const response = await instance.post('login/',data)
   
         if (response.status === 200) {
           // Request was successful, you can handle the response data here

@@ -7,6 +7,7 @@ import { MdDateRange } from "react-icons/md";
 import { IoMdPricetags } from "react-icons/io";
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import instance from '../../routes/axios';
 
 
 function AboutCourse() {
@@ -15,7 +16,7 @@ function AboutCourse() {
   const course = useSelector((store) => store.course.course);
   useEffect(()=>{
     
-    axios.get('http://localhost:8000/api/coursedetails/',{ params: { id: course } })
+    instance.get('coursedetails/',{ params: { id: course } })
     .then((response) => {
       setAbout(response.data);
       console.log(response.data)

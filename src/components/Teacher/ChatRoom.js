@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import instance from '../../routes/axios';
 
 const ChatRoom = () => {
   const [roomId, setRoomId] = useState();
@@ -16,8 +17,8 @@ const ChatRoom = () => {
 
   useEffect(() => {
     if (course) {
-      axios
-        .get('http://localhost:8000/api/roomid/', { params: { id: course } })
+      instance
+        .get('roomid/', { params: { id: course } })
         .then((response) => {
           setRoomId(response.data.id);
         })
@@ -34,8 +35,8 @@ const ChatRoom = () => {
   }, [roomId]);
 
   useEffect(()=>{
-    axios
-    .get('http://localhost:8000/api/messages/', { params: { id: roomId } })
+    instance
+    .get('messages/', { params: { id: roomId } })
     .then((response) => {
       setMessages(response.data);
       console.log(response.data)

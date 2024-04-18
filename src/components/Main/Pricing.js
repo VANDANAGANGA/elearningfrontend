@@ -5,6 +5,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import instance from '../../routes/axios';
 
 function Pricing() {
   const [Razorpay] = useRazorpay();
@@ -21,7 +22,7 @@ function Pricing() {
       razorpay_signature: response.razorpay_signature,
     };
 
-    axios.post('http://localhost:8000/api/handle-payment-success/', orderData)
+    instance.post('handle-payment-success/', orderData)
       .then((res) => {
         navigate('/student')
         console.log('Payment success handled on the server');
@@ -57,11 +58,11 @@ function Pricing() {
       role_id: user?.role_id,
     };
     console.log(formData);
-    axios.get('http://localhost:8000/api/check-payment/', { params: { id: user.role_id } })
+    instance.get('check-payment/', { params: { id: user.role_id } })
       .then(response => {
         if (response.data.message === "No valid Plan exists for the student.") {
           console.log('i am here');
-          axios.post('http://localhost:8000/api/create-razorpay-order/', formData)
+          instance.post('create-razorpay-order/', formData)
             .then(orderResponse => {
               const razorpayOrder = orderResponse.data;
               console.log(razorpayOrder);

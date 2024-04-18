@@ -13,6 +13,8 @@ import { GoUnverified } from "react-icons/go";
 import { MdVerified } from "react-icons/md";
 import { FaFilePdf } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
+import { baseUrl } from '../../utils/urls';
+import instance from '../../routes/axios';
 
 
 
@@ -52,7 +54,7 @@ function  Quiz() {
        title: "Name",
        render: (record) => (
          <Space>
-           <Avatar src={`http://127.0.0.1:8000${record.profile_pic}`} alt="Avatar" icon={<UserOutlined />} />
+           <Avatar src={`${baseUrl}${record.profile_pic}`} alt="Avatar" icon={<UserOutlined />} />
            <span>{record.full_name}</span>
          </Space>
        ),
@@ -138,7 +140,7 @@ function  Quiz() {
        course:course,
       }
       console.log(formData)
-      axios.post('http://localhost:8000/api/teacherquiz/',formData)
+      instance.post('teacherquiz/',formData)
       .then(response => {
         Swal.fire({
           title: 'Quiz created successfully',
@@ -170,7 +172,7 @@ function  Quiz() {
          answer:answere
         }
         console.log(formData)
-        axios.post('http://localhost:8000/api/teacherquestions/',formData)
+        instance.post('teacherquestions/',formData)
         .then(response => {
           Swal.fire({
             title: 'Question created successfully',
@@ -196,7 +198,7 @@ function  Quiz() {
      
       useEffect(()=>{
     
-        axios.get('http://localhost:8000/api/teacherquiz/',{ params: { id: course } })
+        instance.get('teacherquiz/',{ params: { id: course } })
         .then((response) => {
           setQuiz(response.data);
           console.log(response.data)
@@ -230,7 +232,7 @@ function  Quiz() {
     }).then((result) => {
       if (result.isConfirmed) {
         // User confirmed deletion, send Axios request
-        axios.delete('http://localhost:8000/api/teacherquiz/',{ params: { id: quizId } })
+        instance.delete('teacherquiz/',{ params: { id: quizId } })
           .then(response => {
             Swal.fire(
               'Deleted!',
@@ -264,7 +266,7 @@ function  Quiz() {
     }).then((result) => {
       if (result.isConfirmed) {
         // User confirmed deletion, send Axios request
-        axios.delete('http://localhost:8000/api/teacherquestions/',{ params: { id: questionId } })
+        instance.delete('teacherquestions/',{ params: { id: questionId } })
           .then(response => {
             Swal.fire(
               'Deleted!',

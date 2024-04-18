@@ -2,6 +2,7 @@ import React,{useEffect,useState,useRef} from 'react'
 import axios from 'axios';
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
+import instance from '../../routes/axios';
 
 
 function DashBoard() {
@@ -15,7 +16,8 @@ function DashBoard() {
     
       useEffect(()=>{
     
-        axios.get('http://localhost:8000/api/dashboard/')
+        // axios.get('http://localhost:8000/api/dashboard/')
+        instance.get('dashboard/')
         .then((response) => {
           setDetails(response.data);
           console.log(response)
@@ -26,23 +28,6 @@ function DashBoard() {
   }, []);
   
 
-    // const chartData = {
-    //   labels: details.courses_with_enrollment_count ? details.courses_with_enrollment_count.map(course => course.title) : [],
-    //   datasets: [
-    //     {
-    //       data: details.courses_with_enrollment_count ? details.courses_with_enrollment_count.map(course => course.num_students_enrolled) : [],
-    //       backgroundColor: [
-    //         'rgba(255, 99, 132, 0.6)',
-    //         'rgba(54, 162, 235, 0.6)',
-    //         'rgba(255, 206, 86, 0.6)',
-    //         'rgba(75, 192, 192, 0.6)',
-    //         'rgba(153, 102, 255, 0.6)',
-    //         'rgba(255, 159, 64, 0.6)',
-    //         // Add more colors as needed
-    //       ],
-    //     },
-    //   ],
-    // };
    
     useEffect(() => {
       if (details.courses_with_enrollment_count) {

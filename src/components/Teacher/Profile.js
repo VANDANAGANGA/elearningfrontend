@@ -3,6 +3,8 @@ import { FaEdit } from "react-icons/fa";
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { FaCamera } from "react-icons/fa";
+import instance from '../../routes/axios';
+import { baseUrl } from '../../utils/urls';
 
 function Profile() {
     const user=useSelector((store) => (store.authUser.user))
@@ -53,7 +55,7 @@ function Profile() {
         data.append('profile_pic', file); 
     }
     try {
-        await axios.put(`http://localhost:8000/api/teacherprofile/`, data, {
+        await instance.put(`teacherprofile/`, data, {
             headers: {
                 'Content-Type': 'multipart/form-data', 
             },
@@ -68,11 +70,11 @@ function Profile() {
 
     useEffect(()=>{
   
-      axios.get('http://localhost:8000/api/teacherprofile/',{ params: { teacher_id:user?.role_id } })
+      instance.get('teacherprofile/',{ params: { teacher_id:user?.role_id } })
       .then((response) => {
         setProfile(response.data);
         setFormData(response.data)
-        setImagePreviewUrl(`http://localhost:8000${response.data.profile_pic}`);
+        setImagePreviewUrl(`${baseUrl}${response.data.profile_pic}`);
         console.log(response.data)
       })
       .catch((error) => {
@@ -92,7 +94,7 @@ function Profile() {
       <div className='m-11  mt-11 flex justify-between'>
         <div className='justify-center text-center'>
             <div className=' w-[200px] h-[250px] bg-black'>
-            <img src={`http://localhost:8000${profile.profile_pic}`} alt="Profile" className="profile-pic"  style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <img src={`${baseUrl}${profile.profile_pic}`} alt="Profile" className="profile-pic"  style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             </div>
             <div className=''>
                 <h1 className='font-bold text-black pt-4'>{profile.full_name}</h1>

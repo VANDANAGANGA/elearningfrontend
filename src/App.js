@@ -33,7 +33,7 @@ import { adminRoutes } from "./routes/AdminRouter";
 import { teacherRoutes } from "./routes/TeacherRouter";
 import { studentRoutes } from "./routes/StudentRouter";
 import { AdminPrivateRoute, StudentPrivateRoute, TeacherPrivateRoute } from "./routes/PrivateRoute";
-import Chat from "./components/Main/Chat";
+
 function App() {
   return (
     <>
@@ -91,10 +91,7 @@ const appRouter=createBrowserRouter([
         path:"coursedetails/:courseId",
         element:<CourseDetails/>
       },
-      {
-        path:"chat",
-        element:<Chat/>
-      },
+     
     ]},
     {
         path:"admin",

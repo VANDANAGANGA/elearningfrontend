@@ -6,6 +6,8 @@ import { useSelector } from 'react-redux';
 import ReactPlayer from 'react-player'
 import { MdDeleteForever } from "react-icons/md";
 import Swal from 'sweetalert2';
+import instance from '../../routes/axios';
+import { baseUrl } from '../../utils/urls';
 
 
 function Modules() {
@@ -29,7 +31,7 @@ function Modules() {
 
     useEffect(()=>{
     
-      axios.get('http://localhost:8000/api/module/',{ params: { id: course } })
+      instance.get('module/',{ params: { id: course } })
       .then((response) => {
         setModules(response.data);
         console.log(response.data)
@@ -48,7 +50,7 @@ function Modules() {
         module_title: moduleTitle,
         course:course
        }
-       axios.post('http://localhost:8000/api/module/', formData)
+       instance.post('module/', formData)
        .then(response => {
            console.log('Module created successfully:', response.data);
            setShowModal(false)
@@ -78,7 +80,7 @@ const handleOpenChapters = (moduleId) => {
   }).then((result) => {
     if (result.isConfirmed) {
       // User confirmed deletion, send Axios request
-      axios.delete('http://localhost:8000/api/module/',{ params: { id: moduleId } })
+      instance.delete('module/',{ params: { id: moduleId } })
         .then(response => {
           Swal.fire(
             'Deleted!',
@@ -114,7 +116,7 @@ const handleOpenChapters = (moduleId) => {
   }).then((result) => {
     if (result.isConfirmed) {
       // User confirmed deletion, send Axios request
-      axios.delete('http://localhost:8000/api/chapter/',{ params: { id: chapterId } })
+      instance.delete('chapter/',{ params: { id: chapterId } })
         .then(response => {
           Swal.fire(
             'Deleted!',
@@ -152,7 +154,7 @@ const handleClick = (moduleId) => {
          video:videoFile,
         }
         console.log('chapterform',chapterForm)
-        axios.post('http://localhost:8000/api/chapter/',chapterForm, {
+        instance.post('chapter/',chapterForm, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -220,7 +222,7 @@ const handleClick = (moduleId) => {
           { isVideo && (
             <div className=' flex justify-center items-center'>
               <div className='relative w-[640px] h-[360px]'>
-         <ReactPlayer url={`http://localhost:8000${videoUrl}`} controls onEnded={()=>setIsVideo(false)} />
+         <ReactPlayer url={`${baseUrl}${videoUrl}`} controls onEnded={()=>setIsVideo(false)} />
          <div className="absolute top-0 right-0 text-red-400 text-lg px-2 py-1 cursor-pointer" onClick={()=>setIsVideo(false)}> X </div>
           </div>
           </div>

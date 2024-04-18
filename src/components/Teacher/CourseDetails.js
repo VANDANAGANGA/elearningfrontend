@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { Link, Outlet } from 'react-router-dom';
 import axios from 'axios';
 import { useState } from 'react';
+import instance from '../../routes/axios';
 
 function CourseDetails() {
    const [data,setData]= useState('')
@@ -13,7 +14,7 @@ function CourseDetails() {
 
   useEffect(() => {
     if (course) {
-      axios.get('http://localhost:8000/api/coursedetails/', { params: { id: course } })
+      instance.get('coursedetails/', { params: { id: course } })
         .then(response => {
           console.log('course',response.data);
           setData(response.data)

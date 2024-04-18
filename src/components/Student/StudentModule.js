@@ -4,6 +4,8 @@ import { useState,useEffect } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import ReactPlayer from 'react-player'
+import instance from '../../routes/axios';
+import { baseUrl } from '../../utils/urls';
 
 function StudentModule() {
    
@@ -29,7 +31,7 @@ function StudentModule() {
 
     useEffect(()=>{
        console.log("course",course)
-      axios.get('http://localhost:8000/api/studentmodule/',{ params: { id: course } })
+      instance.get('studentmodule/',{ params: { id: course } })
       .then((response) => {
         setModules(response.data);
         console.log(response.data)
@@ -55,7 +57,7 @@ function StudentModule() {
              chapter:chapterId
           }
           console.log(user.role_id,chapterId)
-          axios.post('http://localhost:8000/api/studentchapter/', data)
+          instance.post('studentchapter/', data)
       .then((response) => {
         console.log('Chapter data sent successfully:', response.data);
       })
@@ -83,7 +85,7 @@ function StudentModule() {
         <div className='p-4 '>
           <div className=' flex justify-center items-center'>
             <div className='relative w-[640px] h-[360px]'>
-              <ReactPlayer url={`http://localhost:8000${videoUrl}`} controls onEnded={handlestudentChapter}/>
+              <ReactPlayer url={`${baseUrl}${videoUrl}`} controls onEnded={handlestudentChapter}/>
               <div className="absolute top-0 right-0 text-red-400 text-lg px-2 py-1 cursor-pointer" onClick={() => setIsVideo(false)}> X </div>
             </div>
           </div>

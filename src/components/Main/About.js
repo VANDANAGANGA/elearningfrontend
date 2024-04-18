@@ -2,13 +2,14 @@ import React,{useState} from 'react';
 import Heading from './Heading';
 import axios from 'axios';
 import { useEffect } from 'react';
+import instance from '../../routes/axios';
 
 function About() {
   const[data,setData]=useState()
 
   useEffect(() => {
     // Make an Axios GET request to your Django API endpoint
-    axios.get('http://localhost:8000/api/about/')
+    instance.get('about/')
       .then(response => {
         // Once data is fetched, update the 'online' state with the data
         console.log(response.data)

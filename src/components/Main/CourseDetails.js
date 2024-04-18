@@ -7,6 +7,8 @@ import ReactPlayer from 'react-player'
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
+import instance from '../../routes/axios';
+import { baseUrl } from '../../utils/urls';
 
 
 
@@ -25,7 +27,7 @@ function CourseDetails() {
 
   useEffect(() => {
     
-    axios.get('http://localhost:8000/api/coursedetailsmain/',{ params: { id: courseId } })
+    instance.get('coursedetailsmain/',{ params: { id: courseId } })
       .then(response => {
         // Once data is fetched, update the 'online' state with the data
         console.log(response.data)
@@ -53,7 +55,7 @@ function CourseDetails() {
     
     console.log(user.role_id)
     if (user){
-    axios.get('http://localhost:8000/api/check-payment/',{ params: { id: user.role_id } })
+    instance.get('check-payment/',{ params: { id: user.role_id } })
     .then(response => {
       if (response.data.message === "Valid Plan exists for the student.") {
         console.log('i am here')
@@ -61,7 +63,7 @@ function CourseDetails() {
           student: user.role_id,
           course: courseId
         };
-        axios.post('http://localhost:8000/api/studentcourse/', formData)
+        axios.post('studentcourse/', formData)
           .then( response => {
             console.log('i am here')
             console.log(response.data)
@@ -110,7 +112,7 @@ function CourseDetails() {
         <h1 className='text-black text-xl font-semibold m-4'><span>{modules.length}Modules|</span><span>{data.num_assignments}Assignments|</span><span>{data.num_quizzes}Quizes</span></h1>
 
         {firstVideo?  (
-         <ReactPlayer url={`http://localhost:8000${firstVideo}`} controls onEnded={handlePrice}/>
+         <ReactPlayer url={`${baseUrl}${firstVideo}`} controls onEnded={handlePrice}/>
         
         ):(
         <div className='bg-slate-950 border-2 m-4 h-64 w-[500px]'>
@@ -150,7 +152,7 @@ function CourseDetails() {
 
             <div className=' flex items-center ml-5 py-2'>
               <div className="relative w-20 h-20 mx-6 overflow-hidden rounded-full  border border-black">
-              <img src={`http://localhost:8000${teacher.profile_pic}`} alt="Profile" className="profile-pic"  style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img src={`${baseUrl}${teacher.profile_pic}`} alt="Profile" className="profile-pic"  style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
               <div className='mx-6 text-black'>
               <h1 className='font-semibold'>Course Instructor</h1>

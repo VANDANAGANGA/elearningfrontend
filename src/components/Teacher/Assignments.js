@@ -12,6 +12,8 @@ import { UserOutlined } from '@ant-design/icons';
 import { GoUnverified } from "react-icons/go";
 import { MdVerified } from "react-icons/md";
 import { FaFilePdf } from "react-icons/fa";
+import { baseUrl } from '../../utils/urls';
+import instance from '../../routes/axios';
 
 
 // pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -37,7 +39,7 @@ function Assignments() {
        title: "Name",
        render: (record) => (
          <Space>
-           <Avatar src={`http://127.0.0.1:8000${record.profile_pic}`} alt="Avatar" icon={<UserOutlined />} />
+           <Avatar src={`${baseUrl}${record.profile_pic}`} alt="Avatar" icon={<UserOutlined />} />
            <span>{record.full_name}</span>
          </Space>
        ),
@@ -89,7 +91,7 @@ function Assignments() {
        pdf:file
       }
       console.log(formData)
-      axios.post('http://localhost:8000/api/teacherassignment/',formData, {
+      instance.post('teacherassignment/',formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -114,7 +116,7 @@ function Assignments() {
      
       useEffect(()=>{
     
-        axios.get('http://localhost:8000/api/teacherassignment/',{ params: { id: course } })
+        instance.get('teacherassignment/',{ params: { id: course } })
         .then((response) => {
           setAssignemnt(response.data);
           console.log(response.data)
@@ -144,7 +146,7 @@ function Assignments() {
     }).then((result) => {
       if (result.isConfirmed) {
         // User confirmed deletion, send Axios request
-        axios.delete('http://localhost:8000/api/teacherassignment/',{ params: { id: assignmentId } })
+        instance.delete('teacherassignment/',{ params: { id: assignmentId } })
           .then(response => {
             Swal.fire(
               'Deleted!',
@@ -177,7 +179,7 @@ function Assignments() {
             <button className='absolute top-4 right-4 text-red-400 text-3xl' onClick={() => setQuestion(null)}>
               X
             </button>
-            <Document file={`http://localhost:8000${question}`} onLoadSuccess=''>
+            <Document file={`${baseUrl}${question}`} onLoadSuccess=''>
               <Page pageNumber={1} />
             </Document>
           </div>
