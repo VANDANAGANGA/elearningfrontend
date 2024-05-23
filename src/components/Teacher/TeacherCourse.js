@@ -68,7 +68,7 @@ function TeacherCourse() {
   };
 
   useEffect(() => {
-       console.log('teacher_id',user?.role_id)
+       console.log('teacher',user)
       if (user){
        instance.get('teachercourses/',{ params: { id: user?.role_id } })
         .then(response => {
