@@ -7,7 +7,7 @@ import ReactPlayer from 'react-player'
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
-import instance from '../../routes/axios';
+import axiosinstance from '../../routes/nonauthaxios';
 import { baseUrl } from '../../utils/urls';
 
 
@@ -27,7 +27,7 @@ function CourseDetails() {
 
   useEffect(() => {
     
-    instance.get('coursedetailsmain/',{ params: { id: courseId } })
+    axiosinstance.get('coursedetailsmain/',{ params: { id: courseId } })
       .then(response => {
         // Once data is fetched, update the 'online' state with the data
         console.log(response.data)
