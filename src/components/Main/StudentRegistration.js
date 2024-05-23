@@ -60,7 +60,7 @@ const StudentRegistration = () => {
   pin:pin,
     };
   
-    instance.post('register/', formData,{
+    axiosinstance.post('register/', formData,{
       headers: {
         'Content-Type': 'multipart/form-data',
       },
