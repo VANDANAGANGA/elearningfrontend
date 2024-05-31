@@ -74,7 +74,7 @@ function CourseDetails() {
                 text: 'Successfully Enrolled this Course ',
                 icon: 'error',
                 timer: 1000, 
-                showConfirmButton: falses
+                showConfirmButton: false
               }).then(() => {
                 navigate('/student');
               });
