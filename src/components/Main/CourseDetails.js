@@ -64,7 +64,7 @@ function CourseDetails() {
           student: user.role_id,
           course: courseId
         };
-        axiosinstance.post('studentcourse/', formData)
+        instance.post('studentcourse/', formData)
           .then( response => {
             console.log('i am here')
             console.log(response.data)
