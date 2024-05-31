@@ -72,7 +72,7 @@ function CourseDetails() {
               Swal.fire({
                 title: 'Success',
                 text: 'Successfully Enrolled this Course ',
-                icon: 'error',
+                icon: 'success',
                 timer: 1000, 
                 showConfirmButton: false
               }).then(() => {
