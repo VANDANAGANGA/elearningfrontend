@@ -222,7 +222,7 @@ const handleClick = (moduleId) => {
           { isVideo && (
             <div className=' flex justify-center items-center'>
               <div className='relative w-[640px] h-[360px]'>
-         <ReactPlayer url={`${baseUrl}${videoUrl}`} controls onEnded={()=>setIsVideo(false)} />
+         <ReactPlayer url={`${videoUrl}`} controls onEnded={()=>setIsVideo(false)} />
          <div className="absolute top-0 right-0 text-red-400 text-lg px-2 py-1 cursor-pointer" onClick={()=>setIsVideo(false)}> X </div>
           </div>
           </div>
