@@ -51,7 +51,7 @@ function MyProfile() {
     e.preventDefault();
     const data = new FormData(); // Use FormData to handle file uploads
     data.append('user_id', user?.id);
-    data.append('teacher_id', user?.role_id);
+    data.append('student_id', user?.role_id);
     data.append('full_name', formData.full_name);
     data.append('highest_education', formData.highest_education);
     data.append('specilization', formData.specialization);
