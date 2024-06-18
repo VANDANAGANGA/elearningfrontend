@@ -16,21 +16,22 @@ function Navbar() {
     localStorage.removeItem('token')
     navigate('/')
    }
-   useEffect(() => {
+    useEffect(() => {
     const fetchProfilePic = async () => {
+      if (!user?.id) return; 
+
       try {
         const response = await instance.get('profilepic/', {
-          params: { id: user?.id },
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-          }
+          params: { id: ?user.id }    
         });
         setProfilePic(response.data.profile_pic);
-        console.log(profilePic)
       } catch (error) {
         console.error('Error fetching profile picture:', error);
       }
     };
+
+    fetchProfilePic();
+  }, [user]);
   
     fetchProfilePic();
   }, [user]);
@@ -45,7 +46,7 @@ function Navbar() {
           </div>
           <div className="flex items-center justify-center  h-[85px] w-[300px]" >
           <div className='pr-4'>
-          <h4>Welcome {user?.name?.toUpperCase()}</h4>
+           <h4>Welcome {user?.name?.toUpperCase()}</h4>
          </div>
          <div> 
          < Avatar size="60" round={true} src={`${baseUrl}${profilePic}`}/>
