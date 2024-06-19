@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import { useState,useEffect } from 'react'
-import instance from '../../routes/axios';
+import axiosinstance from '../../routes/nonauthaxios';
 
 function Team() {
    const[team,setTeam]=useState([1])
@@ -9,7 +9,7 @@ function Team() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await instance.get('team/');
+        const response = await axiosinstance.get('team/');
         setTeam(response.data);
         console.log(response.data)
       } catch (error) {
