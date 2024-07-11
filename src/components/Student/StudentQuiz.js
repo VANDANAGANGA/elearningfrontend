@@ -195,72 +195,6 @@ const handleOptionClick = (option) => {
         selectedOption: selectedOption,
         correctAnswer: correctOption,
     };
-
-<<<<<<< HEAD
-  setTimeout(() => {
-    if (currentQuestionIndex  === question.length) {
-      console.log(selectedAnswers);
-      const generatePDF = () => {
-        const doc = new jsPDF();
-        let yOffset = 20; 
-        doc.setFontSize(16);
-        doc.text(`Total Score: ${totalScore}/${selectedAnswers.length}`, 15, yOffset);
-        yOffset += 10;    
-        doc.setFontSize(18);
-        doc.text('Response:', 15, yOffset);
-        yOffset += 10; 
-        selectedAnswers.forEach((item, index) => {
-          doc.setFontSize(14);
-          doc.text(`${index + 1}. ${item.question}`, 15, yOffset);
-          yOffset += 7; 
-          Object.keys(item.options).forEach((key) => {
-            const optionLabel = String.fromCharCode('A'.charCodeAt(0) + parseInt(key.slice(-1)));
-            const optionText = `${optionLabel}. ${item.options[key]}`;
-            doc.text(optionText, 20, yOffset);
-            yOffset += 5; 
-          });
-          doc.text(`Your Answer: ${item.selectedOption.toUpperCase()}`, 20, yOffset);
-          yOffset += 5; 
-          doc.text(`Correct Answer: ${item.correctAnswer.toUpperCase()}`, 20, yOffset);
-          yOffset += 10; 
-        });
-        return doc.output('blob');
-      }
-      const pdfBlob = generatePDF();
-    const formData={
-    student:user?.role_id,
-    quiz:quizId,
-    mark:totalScore,
-    response:pdfBlob,
-    }
-    console.log('i am here')
-    instance.post('studentquiz/',formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      .then(response => {
-        console.log(response)
-        setQuestion(null)
-        setModal(true);
-       
-        setCounter((prevCounter) => prevCounter + 1); 
-      })
-      .catch(error => {
-        Swal.fire({
-          title: 'Sorry Cant Submit',
-          icon: 'failed',
-          timer: 2000,})
-      });
-      
-      }
-       else {
-      setSelectedOption(null); 
-      setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
-    }
-  }, 2000);
-  
-=======
     setSelectedAnsweres(prevOptions => [...prevOptions, selectedAnswer]);
 
     // Check if the selected option is correct and update total score
@@ -344,7 +278,6 @@ const handleOptionClick = (option) => {
             setCurrentQuestionIndex(prevIndex => prevIndex + 1);
         }
     }, 2000);
->>>>>>> 532dd73d11bdb86b1b550517d541443b0ac3dc8e
 };
 
   return (
