@@ -6,15 +6,11 @@ import ReactPlayer from 'react-player'
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
-<<<<<<< HEAD
 import { baseUrl } from '../../utils/urls';
 import axiosinstance from '../../routes/noauthinstance';
 import Loader from '../Loader';
-=======
-import axiosinstance from '../../routes/nonauthaxios';
-import { baseUrl } from '../../utils/urls';
 import instance from '../../routes/axios';
->>>>>>> 532dd73d11bdb86b1b550517d541443b0ac3dc8e
+
 
 
 
