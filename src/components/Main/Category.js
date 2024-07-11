@@ -2,12 +2,8 @@ import React from "react"
 import Heading from "./Heading"
 import axios from "axios"
 import { useEffect, useState } from "react"
-<<<<<<< HEAD
 import instance from "../../routes/axios";
 import axiosinstance from "../../routes/noauthinstance";
-=======
-import axiosinstance from '../../routes/nonauthaxios';
->>>>>>> 532dd73d11bdb86b1b550517d541443b0ac3dc8e
 
 const Category = () => {
     const [online, setOnline] = useState([]);
