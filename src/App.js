@@ -3,7 +3,6 @@ import { createBrowserRouter, Outlet,RouterProvider } from "react-router-dom"
 import Registration from './components/Main/Registration';
 import Home from './components/Main/Home';
 import Header from './components/Main/Header';
-import Footer from "./components/Main/Footer";
 import Login from "./components/Main/Login";
 import Category from "./components/Main/Category";
 import AdminHome from "./components/Admin/AdminHome";
