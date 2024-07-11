@@ -1,12 +1,9 @@
 import React from 'react'
 import axios from 'axios'
 import { useState,useEffect } from 'react'
-<<<<<<< HEAD
 import Loader from '../Loader';
 import axiosinstance from '../../routes/noauthinstance';
-=======
-import axiosinstance from '../../routes/nonauthaxios';
->>>>>>> 532dd73d11bdb86b1b550517d541443b0ac3dc8e
+
 
 function Team() {
    const[team,setTeam]=useState([])
