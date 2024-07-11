@@ -1,23 +1,5 @@
-<<<<<<< HEAD
-// import axios from 'axios'
-=======
 import axios from 'axios'
->>>>>>> 532dd73d11bdb86b1b550517d541443b0ac3dc8e
 
-// const token = localStorage.getItem("access");
-// const accessToken = token ? token : null; // No need to parse as JSON
-
-// const instance = axios.create({
-//   baseURL: 'http://127.0.0.1:8000/api/',
-//   headers: {
-//     'Authorization': `Bearer ${accessToken}`,
-//     'Content-Type': "application/json", 
-//   }, 
-// });
-
-// export default instance;
-
-import axios from 'axios';
 
 // Function to get access token from local storage
 const getAccessToken = () => {
@@ -31,11 +13,7 @@ const getRefreshToken = () => {
 
 // Create axios instance
 const instance = axios.create({
-<<<<<<< HEAD
   baseURL:process.env.REACT_APP_BASE_URL,
-=======
-  baseURL: 'https://elarning-backend-1-wkvk.onrender.com/api',
->>>>>>> 532dd73d11bdb86b1b550517d541443b0ac3dc8e
   headers: {
     'Content-Type': 'application/json',
   },

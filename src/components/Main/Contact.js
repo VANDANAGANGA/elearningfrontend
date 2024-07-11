@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import Swal from 'sweetalert2';
 import { FaFacebookF,FaInstagramSquare,FaTwitter,FaYoutube } from "react-icons/fa";
-import instance from '../../routes/axios';
 import axiosinstance from '../../routes/noauthinstance';
 
 function Contact() {
