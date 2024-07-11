@@ -4,9 +4,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
-import instance from '../../routes/axios';
-
-
+import axiosinstance from '../../routes/nonauthaxios';
 
 const StudentRegistration = () => {
   const [file, setFile] = useState('');
@@ -60,7 +58,7 @@ const StudentRegistration = () => {
   pin:pin,
     };
   
-    instance.post('register/', formData,{
+    axiosinstance.post('register/', formData,{
       headers: {
         'Content-Type': 'multipart/form-data',
       },

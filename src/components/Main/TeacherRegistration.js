@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
-import instance from '../../routes/axios';
+import axiosinstance from '../../routes/nonauthaxios';
 
 
 
@@ -49,7 +49,7 @@ const TeacherRegistration = () => {
   job_role:jobRole
     };
      console.log('file:',file)
-      instance.post('register/', formData,{
+      axiosinstance.post('register/', formData,{
         headers: {
           'Content-Type': 'multipart/form-data',
         },

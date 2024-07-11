@@ -1,8 +1,12 @@
 import React from 'react'
 import axios from 'axios'
 import { useState,useEffect } from 'react'
+<<<<<<< HEAD
 import Loader from '../Loader';
 import axiosinstance from '../../routes/noauthinstance';
+=======
+import axiosinstance from '../../routes/nonauthaxios';
+>>>>>>> 532dd73d11bdb86b1b550517d541443b0ac3dc8e
 
 function Team() {
    const[team,setTeam]=useState([])
@@ -44,7 +48,7 @@ function Team() {
       {team.map((val) => (
         <div className='m-8 bg-white border w-[250px] h-[350px] hover:bg-[#1eb2a6] hover:text-white hover:cursor-pointer'  style={{ boxShadow: '0 5px 25px -2px rgba(0, 0, 0, 0.06)',}}>
             <div className='w-full h-[70%] overflow-hidden'>
-                <img src={`http://127.0.0.1:8000${val.profile_pic}`} alt=''  style={{ width: '100%', height: '100%', objectFit: 'fill' }} />
+                <img src={val.profile_pic} alt=''  style={{ width: '100%', height: '100%', objectFit: 'fill' }} />
             </div>
           <div className='text-center py-4'>
             <h2 className='font-[500] text-[20px] duration-[.5s]'>{val.full_name}</h2>

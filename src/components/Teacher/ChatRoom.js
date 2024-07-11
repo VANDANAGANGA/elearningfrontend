@@ -53,7 +53,7 @@ const ChatRoom = () => {
   },[roomId,counter,user])
 
   const connectWebSocket = () => {
-    ws.current = new WebSocket(`ws://localhost:8000/ws/chat/${roomId}/`);
+    ws.current = new WebSocket(`wss://elarning-backend-1-wkvk.onrender.com/ws/chat/${roomId}/`);
     ws.current.onopen = () => {
       console.log('WebSocket connection opened');
       setWebsocketStatus('connected');

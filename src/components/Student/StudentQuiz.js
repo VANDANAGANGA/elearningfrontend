@@ -66,30 +66,137 @@ function StudentQuiz() {
    }
  }   
 
- const handleOptionClick = (option) => {
-  const correctOption = question[currentQuestionIndex].answer.toLowerCase();
-  console.log(correctOption)
-  const selectedOption = option[option.length - 1]
-  console.log(selectedOption)
-  const currentQuestion = question[currentQuestionIndex];
-  const options = Object.keys(currentQuestion)
-    .filter(key => key.startsWith('option'))
-    .map(key => currentQuestion[key]);
+//  const handleOptionClick = (option) => {
+//   const correctOption = question[currentQuestionIndex].answer.toLowerCase();
+//   console.log(correctOption)
+//   const selectedOption = option[option.length - 1]
+//   console.log(selectedOption)
+//   const currentQuestion = question[currentQuestionIndex];
+//   const options = Object.keys(currentQuestion)
+//     .filter(key => key.startsWith('option'))
+//     .map(key => currentQuestion[key]);
+//     const selectedAnswer = {
+//         questionNo: currentQuestionIndex + 1,
+//         question: currentQuestion.question,
+//         options: options,
+//         selectedOption: selectedOption,
+//         correctAnswer: correctOption,
+//       };
+//   setSelectedAnsweres(prevOptions => [...prevOptions, selectedAnswer]);
+//   if (selectedOption === correctOption) {
+//     setSelectedOption({ option, correct: true });
+//     setTotalScore((prevScore) => prevScore + 1);
+//   } else {
+//     setSelectedOption({ option, correct: false });
+//   }
+
+//   // Move to next question or show total answers
+//   setTimeout(() => {
+//     if (currentQuestionIndex  === question.length) {
+//       // Show total answers and responses
+//       console.log(totalScore);
+//       console.log(selectedAnswers);
+
+    
+//       const generatePDF = () => {
+//         const doc = new jsPDF();
+//         let yOffset = 20; // Initial vertical offset
+  
+//         // Add total score
+//         doc.setFontSize(16);
+//         doc.text(`Total Score: ${totalScore}/${selectedAnswers.length}`, 15, yOffset);
+//         yOffset += 10; // Increase vertical offset
+  
+//         // Add response header
+//         doc.setFontSize(18);
+//         doc.text('Response:', 15, yOffset);
+//         yOffset += 10; // Increase vertical offset
+  
+//         // Add response details
+//         selectedAnswers.forEach((item, index) => {
+//           // Add question number and text
+//           doc.setFontSize(14);
+//           doc.text(`${index + 1}. ${item.question}`, 15, yOffset);
+//           yOffset += 7; // Increase vertical offset
+  
+//           // Add options
+//           Object.keys(item.options).forEach((key) => {
+//             const optionLabel = String.fromCharCode('A'.charCodeAt(0) + parseInt(key.slice(-1)));
+//             const optionText = `${optionLabel}. ${item.options[key]}`;
+//             doc.text(optionText, 20, yOffset);
+//             yOffset += 5; // Increase vertical offset
+//           });
+  
+//           // Add selected answer and correct answer
+//           doc.text(`Your Answer: ${item.selectedOption.toUpperCase()}`, 20, yOffset);
+//           yOffset += 5; // Increase vertical offset
+//           doc.text(`Correct Answer: ${item.correctAnswer.toUpperCase()}`, 20, yOffset);
+//           yOffset += 10; // Increase vertical offset
+//         });
+  
+//         return doc.output('blob');
+//       }
+//       const pdfBlob = generatePDF();
+
+
+//     const formData={
+//     student:user?.role_id,
+//     quiz:quizId,
+//     mark:totalScore,
+//     response:pdfBlob,
+//     }
+//     console.log('i am here')
+//     instance.post('studentquiz/',formData, {
+//         headers: {
+//           'Content-Type': 'multipart/form-data',
+//         },
+//       })
+//       .then(response => {
+//         console.log(response)
+//         setQuestion(null)
+//         setModal(true);
+       
+//         setCounter((prevCounter) => prevCounter + 1); 
+//       })
+//       .catch(error => {
+//         Swal.fire({
+//           title: 'Sorry Cant Submit',
+//           icon: 'failed',
+//           timer: 2000,})
+//       });
+      
+//       }
+//        else {
+//       // Move to next question
+//       setSelectedOption(null); // Reset border color
+//       setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+//     }
+//   }, 2000);
+  
+// };
+const handleOptionClick = (option) => {
+    if (!question || !question[currentQuestionIndex]) {
+        // Handle scenario where question or current question is not defined
+        console.error('Question or current question index not defined.');
+        return;
+    }
+
+    const correctOption = question[currentQuestionIndex].answer.toLowerCase();
+    const selectedOption = option[option.length - 1];
+    const currentQuestion = question[currentQuestionIndex];
+    const options = Object.keys(currentQuestion)
+        .filter(key => key.startsWith('option'))
+        .map(key => currentQuestion[key]);
+
     const selectedAnswer = {
         questionNo: currentQuestionIndex + 1,
         question: currentQuestion.question,
         options: options,
         selectedOption: selectedOption,
         correctAnswer: correctOption,
-      };
-  setSelectedAnsweres(prevOptions => [...prevOptions, selectedAnswer]);
-  if (selectedOption === correctOption) {
-    setSelectedOption({ option, correct: true });
-    setTotalScore((prevScore) => prevScore + 1);
-  } else {
-    setSelectedOption({ option, correct: false });
-  }
+    };
 
+<<<<<<< HEAD
   setTimeout(() => {
     if (currentQuestionIndex  === question.length) {
       console.log(selectedAnswers);
@@ -153,6 +260,91 @@ function StudentQuiz() {
     }
   }, 2000);
   
+=======
+    setSelectedAnsweres(prevOptions => [...prevOptions, selectedAnswer]);
+
+    // Check if the selected option is correct and update total score
+    if (selectedOption === correctOption) {
+        setSelectedOption({ option, correct: true });
+        setTotalScore(prevScore => prevScore + 1);
+    } else {
+        setSelectedOption({ option, correct: false });
+    }
+
+    // Move to next question or show total answers
+    setTimeout(() => {
+        if (currentQuestionIndex + 1 === question.length) {
+            // End of quiz logic
+            const generatePDF = () => {
+                const doc = new jsPDF();
+                let yOffset = 20;
+
+                // Add total score
+                doc.setFontSize(16);
+                doc.text(`Total Score: ${totalScore}/${selectedAnswers.length}`, 15, yOffset);
+                yOffset += 10;
+
+                // Add response header
+                doc.setFontSize(18);
+                doc.text('Response:', 15, yOffset);
+                yOffset += 10;
+
+                // Add response details
+                selectedAnswers.forEach((item, index) => {
+                    doc.setFontSize(14);
+                    doc.text(`${index + 1}. ${item.question}`, 15, yOffset);
+                    yOffset += 7;
+
+                    Object.keys(item.options).forEach((key) => {
+                        const optionLabel = String.fromCharCode('A'.charCodeAt(0) + parseInt(key.slice(-1)));
+                        const optionText = `${optionLabel}. ${item.options[key]}`;
+                        doc.text(optionText, 20, yOffset);
+                        yOffset += 5;
+                    });
+
+                    doc.text(`Your Answer: ${item.selectedOption.toUpperCase()}`, 20, yOffset);
+                    yOffset += 5;
+                    doc.text(`Correct Answer: ${item.correctAnswer.toUpperCase()}`, 20, yOffset);
+                    yOffset += 10;
+                });
+
+                return doc.output('blob');
+            };
+
+            const pdfBlob = generatePDF();
+
+            const formData = {
+                student: user?.role_id,
+                quiz: quizId,
+                mark: totalScore,
+                response: pdfBlob,
+            };
+
+            instance.post('studentquiz/', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            })
+            .then(response => {
+                console.log(response);
+                setQuestion(null);
+                setModal(true);
+                setCounter(prevCounter => prevCounter + 1);
+            })
+            .catch(error => {
+                Swal.fire({
+                    title: 'Sorry, submission failed',
+                    icon: 'error',
+                    timer: 2000,
+                });
+            });
+        } else {
+            // Move to next question
+            setSelectedOption(null);
+            setCurrentQuestionIndex(prevIndex => prevIndex + 1);
+        }
+    }, 2000);
+>>>>>>> 532dd73d11bdb86b1b550517d541443b0ac3dc8e
 };
 
   return (

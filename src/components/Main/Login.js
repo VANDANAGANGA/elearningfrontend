@@ -4,8 +4,12 @@ import {jwtDecode} from 'jwt-decode';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
+<<<<<<< HEAD
 import axiosinstance from '../../routes/noauthinstance';
 import { addUser } from '../../Store/authSlice';
+=======
+import axiosinstance from '../../routes/nonauthaxios';
+>>>>>>> 532dd73d11bdb86b1b550517d541443b0ac3dc8e
 
 
 
