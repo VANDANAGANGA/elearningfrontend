@@ -5,13 +5,10 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-<<<<<<< HEAD
 import instance from '../../routes/axios';
 import axiosinstance from '../../routes/noauthinstance';
 import Loader from '../Loader';
-=======
-import axiosinstance from '../../routes/nonauthaxios';
->>>>>>> 532dd73d11bdb86b1b550517d541443b0ac3dc8e
+
 
 
 function Course() {
