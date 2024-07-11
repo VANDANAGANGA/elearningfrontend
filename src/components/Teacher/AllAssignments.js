@@ -18,6 +18,7 @@ import { MdVerified } from "react-icons/md";
 import { FaFilePdf } from "react-icons/fa";
 import { baseUrl } from '../../utils/urls';
 import instance from '../../routes/axios';
+import Loader from '../Loader';
 
 
 
@@ -35,6 +36,7 @@ function AllAssignments() {
   const [modalUserId, setModalUserId] = useState(null);
   const [modalUsername, setModalUsername] = useState("");
   const [isEditSuccessful, setIsEditSuccessful] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   const showModal = (userId, action, username) => {
     console.log('am here 11111111')
@@ -102,6 +104,7 @@ function AllAssignments() {
         instance.get('teacherallassignment/',{ params: { id: user.role_id } })
         .then((response) => {
          setAssignment(response.data);
+         setLoading(false)
           console.log(response.data)
         })
         .catch((error) => {
@@ -207,9 +210,11 @@ function AllAssignments() {
          <button className='rounded-full border py-2 px-4 m-2 text-white' onClick={()=>handleEdit(modalUserId)}>{modalAction === 'verified' ? 'verified' : 'not verified'}</button>
         </div>
           </Modal>
+          {loading ? (
+            <Loader visible={loading} />
+          ) : (
 
-
-      {assignment.length === 0 ? (
+      assignment.length === 0 ? (
   <div className='ml-8 pl-5 text-red-500 my-4 text-center pt-40 '>
      <h1 className='text-2xl font-bold'> Create A Course and Start Teaching</h1>
     <button className='pl-2 hover:cursor-pointer' onClick={handleCreateCourse}>
@@ -240,7 +245,7 @@ function AllAssignments() {
        )}  
 
       </div>
-       )))}
+       ))))}
       </section>
   )
 }

@@ -4,18 +4,19 @@ import Slider from 'react-slick/lib/slider';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import instance from '../../routes/axios';
+import axiosinstance from '../../routes/noauthinstance';
+import Loader from '../Loader';
 
 
 function Course() {
   const[course,setCourse]=useState([])
   const navigate= useNavigate()
+  const [loading, setLoading] = useState(true);
 
   
   const handleViewDetails = (courseId) => {
-    // Navigate to the course details page with the course ID
     navigate(`/coursedetails/${courseId}`);
   };  
 
@@ -30,11 +31,12 @@ function Course() {
 
       useEffect(() => {
         // Make an Axios GET request to your Django API endpoint
-        instance.get('courses/')
+        axiosinstance.get('courses/')
           .then(response => {
             // Once data is fetched, update the 'online' state with the data
             console.log(response.data)
             setCourse(response.data)
+            setLoading(false)
           })
           .catch(error => {
             console.error('Error:', error);
@@ -46,10 +48,22 @@ function Course() {
        <section className="" style={{backgroundColor: '#acddde',backgroundSize: 'cover',backgroundAttachment: 'fixed',
     position: 'absolute',top: '0',left: '0',zIndex: '-1',width: '100%',paddingTop: '15%',paddingRight: '50px',color: '#fff',marginBottom: '50px'}}>
         <div className="text-center pt-18 pr-20 mb-4 ">
-          <Heading subtitle="COURSES" title="Browse Our Online Courses" />
-          <div className=" p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        
-            {course.map((course) => 
+        <div className='text-center mb-4'>
+      <h4 className='text-xl text-[#1eb2a6] font-bold'>Courses</h4>
+      <h1 className='font-extrabold text-5xl pt-2'>Browse Our Online Courses</h1>
+      </div>
+          {loading ? (
+            <Loader visible={loading} />
+          ) : (
+         
+    course.length==0?(
+      <div className='flex items-center justify-center m-4  h-96'>
+      <h1 className='text-red-500 font-bold text-2xl'>No courses available at the moment. Stay tuned for exciting updates!</h1>
+      </div>
+    )  :( 
+      <div className=" p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            
+           {course.map((course) => 
             <div key={course.id} className='border bg-white p-2 m-4 w-100 '>
               <div className='flex'>
                   <div className='img'>
@@ -90,10 +104,13 @@ function Course() {
               <button   onClick={() => handleViewDetails(course.id)} className='px-8 py-4 bg-white text-[#1eb2a6] w-full font-semibold border border-transparent my-3 rounded cursor-pointer shadow-md transition duration-500 hover:text-white hover:bg-[#1eb2a6] hover:border-[#1eb2a6]'>VIEW DETAILS !</button>
             </div>
             )}
-        </div>
-
+             </div>
+            )
+       
+       )}
     </div>
       </section>
+          
     </>
   )
 }

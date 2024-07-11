@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import instance from '../../routes/axios';
 import { baseUrl } from '../../utils/urls';
+import Loader from '../Loader';
 
 
 
@@ -28,6 +29,8 @@ function MyProfile() {
         state:'',
         pin:''
     });
+    const [loading, setLoading] = useState(true); 
+
 
 
     const handleChange = (e) => {
@@ -88,6 +91,7 @@ function MyProfile() {
         instance.get('studentprofile/',{ params: { student_id:user?.role_id } })
         .then((response) => {
           setProfile(response.data);
+          setLoading(false)
           setFormData(response.data)
           setImagePreviewUrl(`${baseUrl}${response.data.profile_pic}`);
           console.log(response.data)
@@ -95,7 +99,7 @@ function MyProfile() {
         .catch((error) => {
           console.error('Error fetching modules:', error);
         });
-    }, [user?.role_id]);
+    }, [user]);
 
 
   return (
@@ -104,6 +108,16 @@ function MyProfile() {
       <div className='text-center '>
         <h1 className='text-center text-black text-4xl font-extrabold' >My Profile</h1>
       </div>
+      {loading ? (
+            <Loader visible={loading} />
+          ) : (
+            !profile || Object.keys(profile).length === 0 ? (
+              <div className='flex items-center justify-center m-4  h-96'>
+              <h1 className='text-red-500 font-bold text-2xl'>Something Went Wrong Can't Load Your Profile</h1>
+              </div>
+            )  :(  
+
+      <>
       <div className="relative p-4 m-4">
       <button className=' absolute right-0 text-black  text-3xl'  onClick={() => setModal(true)}><FaEdit /></button>
       </div>
@@ -203,7 +217,8 @@ function MyProfile() {
                 </div>
                 </>
             )}
-     
+        </>
+          ))}
       </section>
   )
 }

@@ -1,16 +1,19 @@
 import React from 'react'
 import axios from 'axios'
 import { useState,useEffect } from 'react'
-import instance from '../../routes/axios';
+import Loader from '../Loader';
+import axiosinstance from '../../routes/noauthinstance';
 
 function Team() {
-   const[team,setTeam]=useState([1])
+   const[team,setTeam]=useState([])
+   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await instance.get('team/');
+        const response = await axiosinstance.get('team/');
         setTeam(response.data);
+        setLoading(false)
         console.log(response.data)
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -20,54 +23,22 @@ function Team() {
     fetchData();
   },[]);
 
-    const teamm = [
-        {
-          cover: "https://raw.githubusercontent.com/sunil9813/Education-Website-Using-ReactJS/master/public/images/team/t1.webp",
-          name: "Ph.D Adrian Molises",
-          work: "DEVELOPER AND LEAD INSTRUCTOR",
-        },
-        {
-          cover: "https://raw.githubusercontent.com/sunil9813/Education-Website-Using-ReactJS/master/public/images/team/t2.webp",
-          name: "Ph.D Arthur MaGregor",
-          work: "DEVELOPER AND LEAD INSTRUCTOR",
-        },
-        {
-          cover: "https://raw.githubusercontent.com/sunil9813/Education-Website-Using-ReactJS/master/public/images/team/t3.webp",
-          name: "Ph.D Anna Hanzen",
-          work: "DEVELOPER AND LEAD INSTRUCTOR",
-        },
-        {
-          cover: "https://raw.githubusercontent.com/sunil9813/Education-Website-Using-ReactJS/master/public/images/team/t3.webp",
-          name: "Ph.D Brian Wooden",
-          work: "DEVELOPER AND LEAD INSTRUCTOR",
-        },
-        {
-          cover: "https://raw.githubusercontent.com/sunil9813/Education-Website-Using-ReactJS/master/public/images/team/t3.webp",
-          name: "Ph.D Adrian Molises",
-          work: "DEVELOPER AND LEAD INSTRUCTOR",
-        },
-        {
-          cover: "https://raw.githubusercontent.com/sunil9813/Education-Website-Using-ReactJS/master/public/images/team/t3.webp",
-          name: "Ph.D Arthur MaGregor",
-          work: "DEVELOPER AND LEAD INSTRUCTOR",
-        },
-        {
-          cover: "https://raw.githubusercontent.com/sunil9813/Education-Website-Using-ReactJS/master/public/images/team/t3.webp",
-          name: "Ph.D Anna Hanzen",
-          work: "DEVELOPER AND LEAD INSTRUCTOR",
-        },
-        {
-          cover: "https://raw.githubusercontent.com/sunil9813/Education-Website-Using-ReactJS/master/public/images/team/t3.webp",
-          name: "Ph.D Brian Wooden",
-          work: "DEVELOPER AND LEAD INSTRUCTOR",
-        },
-    ]
   return (
     <>
     <div className='text-center mb-4'>
       <h4 className='text-xl text-[#1eb2a6] font-bold'>Team</h4>
       <h1 className='font-extrabold text-5xl pt-2'>Our Best Teachers</h1>
       </div>
+      {loading ? (
+            <Loader visible={loading} />
+          ) : (
+            team.length==0?(
+              <div className='flex items-center justify-center m-4  h-96'>
+              <h1 className='text-red-500 font-bold text-2xl'>Teachers are gearing up to bring you an enriching learning experience!</h1>
+              </div>
+            )  :( 
+
+
     <section className='m-8 px-[80px]'>
       <div className='  grid grid-cols-4 gap-30'>
       {team.map((val) => (
@@ -84,6 +55,8 @@ function Team() {
       ))}
       </div>
     </section>
+            )
+          )}
     
   </>
   )

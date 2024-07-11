@@ -14,6 +14,7 @@ import { MdVerified } from "react-icons/md";
 import { FaFilePdf } from "react-icons/fa";
 import { baseUrl } from '../../utils/urls';
 import instance from '../../routes/axios';
+import Loader from '../Loader';
 
 
 // pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -29,7 +30,7 @@ function Assignments() {
     const[assignemnt,setAssignemnt]=useState([])
     const[question,setQuestion]=useState()
     const[counter,setCounter]=useState(0)
-    
+    const [loading, setLoading] = useState(true); 
     const course = useSelector((store) => store.course.course);
     
   const columns = [
@@ -119,6 +120,7 @@ function Assignments() {
         instance.get('teacherassignment/',{ params: { id: course } })
         .then((response) => {
           setAssignemnt(response.data);
+          setLoading(false)
           console.log(response.data)
         })
         .catch((error) => {
@@ -246,7 +248,20 @@ function Assignments() {
           
         </>
       ) : null}
-         { assignemnt.map( (items) => (
+
+        
+{loading ? (
+            <Loader visible={loading} />
+          ) : (
+
+         
+         assignemnt.length === 0 ? (
+  <div className='ml-8 pl-5 text-red-500 my-4 text-center pt-40 '>
+     <h1 className='text-2xl font-bold'> Create Assignment and Start Teaching</h1>
+  </div>
+) : (
+       
+         assignemnt.map( (items) => (
         <div className='rounded-lg bg-white text-black max-w-[500px] mt-2 pl-6 py-2 flex justify-between'>
             <div>
             <h2>Assignment {items.assignment.assignment_no}</h2>
@@ -263,7 +278,7 @@ function Assignments() {
             
             </div>
         </div>
-          ))}
+          ))))}
     </div>
   )
 }

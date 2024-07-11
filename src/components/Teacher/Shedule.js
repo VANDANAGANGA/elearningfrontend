@@ -1,16 +1,11 @@
 import React from 'react'
-import Category from '../Main/Category'
 import { useState,useEffect } from 'react';
-import axios from 'axios';
 import Swal from 'sweetalert2';
-import { Avatar,Space } from 'antd';
-import { UserOutlined,StarFilled } from '@ant-design/icons';
-import { HiUsers } from "react-icons/hi";
 import { MdDateRange } from "react-icons/md";
 import { useSelector,useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
-import { addCourse } from '../../Store/courseSlice';
 import instance from '../../routes/axios';
+import Loader from '../Loader';
 
 function Shedule() {
   const[data, setData] = useState([]);
@@ -20,6 +15,7 @@ function Shedule() {
   const[date,setDate]=useState([])
   const [filterOption, setFilterOption] = useState('today');
   const [filteredData, setFilteredData] = useState([]);
+  const [loading, setLoading] = useState(true); 
 
   const navigate= useNavigate()
   const dispatch = useDispatch();
@@ -49,6 +45,7 @@ function Shedule() {
         .then(response => {
           console.log(response)
           setData(response.data);
+          setLoading(false)
         })
         .catch(error => {
           console.error('Error:', error);
@@ -124,7 +121,7 @@ function Shedule() {
     <section className='w-full'>
     
       <div className='text-center '>
-        <h1 className='text-center text-black text-4xl font-extrabold' >My Shedule</h1>
+        <h1 className='text-center text-black text-4xl font-extrabold' >My Schedule</h1>
       </div>
       <div className='flex items-center justify-between'>
       <div>
@@ -147,18 +144,14 @@ function Shedule() {
             className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
           >
             <div className="relative w-2/5 my-6 mx-auto max-w-3xl">
-              {/*content*/}
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                {/*header*/}
                 <button
                     className="px-4 ml-auto  border-0 text-red-400  float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                     onClick={() => setShowModal(false)}>X </button>
                 <div className="  border-b border-solid border-blueGray-200 rounded-t">
                   <h3 className="text-3xl font-semibold text-black text-center PL-10">Create Shedule </h3>  
                 </div>
-                {/*body*/}
                 
-
                 <form  className='space-y-6 p-4' onSubmit={handleSubmit}>
                 <div className=" p-6  flex flex-col">
             <label className='text-black'>Title</label>
@@ -180,10 +173,13 @@ function Shedule() {
           
         </>
       ) : null}
-
-    {data.length==0?(
+      
+ {loading ? (
+            <Loader visible={loading} />
+          ) : (
+       data.length==0?(
       <div className='h-fit pt-40 flex items-center justify-center'>
-      <h1 className='text-red-500 font-bold text-2xl'>Make Shedule And Start Teaching</h1>
+      <h1 className='text-red-500 font-bold text-2xl'>Make Schedule And Start Teaching</h1>
       </div>
     )  :( 
 
@@ -209,7 +205,7 @@ function Shedule() {
       </div>
          ))}    
         </div>
-    )}
+    ))}
     
    
     

@@ -3,12 +3,13 @@ import Heading from "./Heading"
 import axios from "axios"
 import { useEffect, useState } from "react"
 import instance from "../../routes/axios";
+import axiosinstance from "../../routes/noauthinstance";
 
 const Category = () => {
     const [online, setOnline] = useState([]);
     useEffect(() => {
         // Make an Axios GET request to your Django API endpoint
-        instance.get('coursecategory/')
+        axiosinstance.get('coursecategory/')
           .then(response => {
             // Once data is fetched, update the 'online' state with the data
             setOnline(response.data);

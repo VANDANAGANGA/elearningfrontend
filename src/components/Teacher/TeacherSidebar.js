@@ -10,17 +10,33 @@ import {
 }from "react-icons/fa";
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { deleteUser } from '../../Store/authSlice';
+import instance from '../../routes/axios';
+import { useDispatch } from 'react-redux';
 
 
 const TeacherSidebar = ({children}) => {
     const navigate=useNavigate()
+    const dispatch = useDispatch();
     const[isOpen ,setIsOpen] = useState(false);
-    const toggle = () => setIsOpen (!isOpen);
-      
-const handleLogout =()=>{
-    localStorage.removeItem('token')
-    navigate('/')
-   }
+
+    const handleLogout = () => {
+        const refreshToken = localStorage.getItem('refresh');
+        if (refreshToken) {
+        instance.post('logout/', { refresh:refreshToken })
+          .then(response => {
+            console.log('Logged out successfully:', response);
+            localStorage.removeItem('access');
+            localStorage.removeItem('refresh');
+            dispatch(deleteUser());
+            navigate('/login'); 
+          })
+          .catch(error => {
+            console.error('Error logging out:', error);
+          });
+        }
+      };
+
 
 
     const menuItem=[
@@ -55,11 +71,6 @@ const handleLogout =()=>{
             icon:<FaUserAlt/>
         },
         
-        // {
-        //     name:"Logout",
-        //     icon:<FaChevronCircleDown/>,
-        //     onClick: handleLogout
-        // }
     ]
     return (
         <div className="flex ml-6">

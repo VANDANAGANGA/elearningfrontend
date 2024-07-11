@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import ReactPlayer from 'react-player'
 import instance from '../../routes/axios';
 import { baseUrl } from '../../utils/urls';
+import Loader from '../Loader';
 
 function StudentModule() {
    
@@ -18,6 +19,7 @@ function StudentModule() {
     const [videoUrl, setVideoUrl] = useState("");
     const[counter,setCounter]=useState(0)
     const[chapterId,setChapterId]=useState()
+    const [loading, setLoading] = useState(true);
 
     
   
@@ -34,17 +36,13 @@ function StudentModule() {
       instance.get('studentmodule/',{ params: { id: course } })
       .then((response) => {
         setModules(response.data);
+        setLoading(false)
         console.log(response.data)
       })
       .catch((error) => {
         console.error('Error fetching modules:', error);
       });
   }, [course,counter]);
-    
-
-  
-   
-   
             const handleOpenChapters = (moduleId) => {
             setIsOpen(true);
             setModuleId(moduleId);
@@ -65,9 +63,6 @@ function StudentModule() {
         console.error('Error sending chapter data:', error);
       });
   };
-
-        
-      
         const handleClick = (moduleId) => {
         setFlippedModules((prevFlippedModules) => {
             return { ...prevFlippedModules, [moduleId]: !prevFlippedModules[moduleId] };
@@ -82,6 +77,16 @@ function StudentModule() {
       };
     
       return (
+        <>
+        {loading ? (
+            <Loader visible={loading} />
+          ) : (
+               
+    modules.length==0?(
+      <div className='flex items-center justify-center m-4  h-96'>
+      <h1 className='text-red-500 font-bold text-2xl'>Exciting content is in the works! Stay tuned!</h1>
+      </div>
+    )  :( 
         <div className='p-4 '>
           <div className=' flex justify-center items-center'>
             <div className='relative w-[640px] h-[360px]'>
@@ -114,6 +119,8 @@ function StudentModule() {
             </div>
           ))}
         </div>
+          ))}
+        </>
       );
       
     }

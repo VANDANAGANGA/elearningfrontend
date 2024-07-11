@@ -18,6 +18,7 @@ import { MdVerified } from "react-icons/md";
 import { FaFilePdf } from "react-icons/fa";
 import { baseUrl } from '../../utils/urls';
 import instance from '../../routes/axios';
+import Loader from '../Loader';
 
 
 
@@ -56,23 +57,13 @@ function AllQuiz() {
            <span>{record.mark}</span>
           ),
        },
-      //  {
-      //    key: '4',
-      //    title: 'Actions',
-      //    render: (record) => (
-      //       <div>
-      //         {record.is_active ? (
-      //           <MdVerified style={{ width: 30, height: 30, marginRight: 8 }} />
-      //         ) : (
-      //           <GoUnverified style={{ width: 30, height: 30, marginRight: 8 }} />
-      //         )}
-      //       </div>
-      //     )}
+      
      ]
     const [quiz,setQuiz]=useState([])
     const[question,setQuestion]=useState()
     const[student,setStudent]=useState([])
     const[modal,setModal]=useState(false)
+    const [loading, setLoading] = useState(true); 
     const navigate= useNavigate()
     const dispatch = useDispatch();
     const user=useSelector((store) => (store.authUser.user))
@@ -82,6 +73,7 @@ function AllQuiz() {
         instance.get('teacherallquiz/',{ params: { id: user.role_id } })
         .then((response) => {
          setQuiz(response.data);
+         setLoading(false)
           console.log(response.data)
         })
         .catch((error) => {
@@ -149,9 +141,11 @@ function AllQuiz() {
       )
       }
 
+{loading ? (
+            <Loader visible={loading} />
+          ) : (
 
-
-      {quiz.length === 0 ? (
+      quiz.length === 0 ? (
   <div className='ml-8 pl-5 text-red-500 my-4 text-center pt-40 '>
      <h1 className='text-2xl font-bold'> Create A Course and Start Teaching</h1>
     <button className='pl-2 hover:cursor-pointer' onClick={handleCreateCourse}>
@@ -182,7 +176,7 @@ function AllQuiz() {
        )}  
 
       </div>
-       )))}
+       ))))}
       </section>
   )
 }

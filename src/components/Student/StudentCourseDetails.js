@@ -9,6 +9,7 @@ import instance from '../../routes/axios';
 function StudentCourseDetails() {
    const [data,setData]= useState('')
    
+   
   const course = useSelector((store) => store.course.course);
   console.log(course)
 
@@ -18,6 +19,7 @@ function StudentCourseDetails() {
         .then(response => {
           console.log('course',response.data);
           setData(response.data)
+          
         })
         .catch(error => {
           console.error('Error:', error);

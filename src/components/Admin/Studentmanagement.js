@@ -9,6 +9,7 @@ import Modal from 'react-modal';
 import { PiStudentFill } from "react-icons/pi";
 import instance from '../../routes/axios';
 import { baseUrl } from '../../utils/urls';
+import Loader from '../Loader';
 
 
 function Studentmanagement() {
@@ -23,6 +24,9 @@ function Studentmanagement() {
   const [modalUsername, setModalUsername] = useState("");
   const [isEditSuccessful, setIsEditSuccessful] = useState(0);
   const [course,setCourse]=useState([]);
+  const [loading, setLoading] = useState(true); 
+
+
 
   const showModal = (userId, action, username) => {
     console.log(userId)
@@ -148,8 +152,8 @@ function Studentmanagement() {
     const fetchData = async () => {
       try {
         const response = await  instance.get('studentmanagement/')
-        // axios.get('http://127.0.0.1:8000/api/studentmanagement/');
         setDataSource(response.data);
+        setLoading(false)
         console.log(response.data)
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -168,7 +172,6 @@ function Studentmanagement() {
       try {
         console.log(modalUserId)
         const response = await  instance.put('studentmanagement/', { id: modalUserId })
-        // axios.put('http://127.0.0.1:8000/api/studentmanagement/', { id: modalUserId });
         console.log('User updated successfully', response.data);
         setIsModalVisible(false);
         setIsEditSuccessful((prevCounter) => prevCounter + 1); 
@@ -189,7 +192,11 @@ function Studentmanagement() {
         <h1 className='text-center text-black text-4xl font-extrabold' >These Are Our Students</h1>
       </div>
         <div className="relative p-4 m-2">
+        {loading ? (
+            <Loader visible={loading} />
+          ) : (  
         <Table columns={columns} dataSource={dataSource}></Table>
+          )}
         <Modal
         isOpen={isModalVisible}
         onRequestClose={handleModalClose}

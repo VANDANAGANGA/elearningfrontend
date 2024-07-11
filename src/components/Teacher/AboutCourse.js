@@ -4,14 +4,14 @@ import { MdAssignment } from "react-icons/md";
 import { MdQuiz } from "react-icons/md";
 import { TbLanguageHiragana } from "react-icons/tb";
 import { MdDateRange } from "react-icons/md";
-import { IoMdPricetags } from "react-icons/io";
-import axios from 'axios';
 import { useSelector } from 'react-redux';
 import instance from '../../routes/axios';
+import Loader from '../Loader';
 
 
 function AboutCourse() {
   const [about,setAbout]=useState({})
+  const [loading, setLoading] = useState(true);
 
   const course = useSelector((store) => store.course.course);
   useEffect(()=>{
@@ -19,6 +19,7 @@ function AboutCourse() {
     instance.get('coursedetails/',{ params: { id: course } })
     .then((response) => {
       setAbout(response.data);
+      setLoading(false)
       console.log(response.data)
     })
     .catch((error) => {
@@ -26,6 +27,10 @@ function AboutCourse() {
     });
 }, [course]);
   return (
+    <>   
+ {loading ? (
+            <Loader visible={loading} />
+          ) : (
     <div>
        <div className='m-2 p-2 text-black'>
       <div className='flex m-4'>
@@ -56,6 +61,8 @@ function AboutCourse() {
       
 
     </div>
+          )}
+          </>
   )
 }
 

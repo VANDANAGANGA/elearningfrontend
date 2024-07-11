@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
 import instance from '../../routes/axios';
+import Loader from '../Loader';
 
 
 function DashBoard() {
@@ -11,15 +12,16 @@ function DashBoard() {
     const chartRef = useRef(null);
     const [chartData, setChartData] = useState(null);
     const [userData, setUserData] = useState(null);
+    const [loading, setLoading] = useState(true); 
+
 
 
     
       useEffect(()=>{
-    
-        // axios.get('http://localhost:8000/api/dashboard/')
         instance.get('dashboard/')
         .then((response) => {
           setDetails(response.data);
+          setLoading(false)
           console.log(response)
       })
       .catch(error => {
@@ -58,6 +60,10 @@ function DashBoard() {
     
   return (
     <section className='w-full'>
+      {loading ? (
+            <Loader visible={loading} />
+          ) : (
+      <>
     <div className='text-center m-2 '>
      <h1 className='text-center text-black text-4xl font-extrabold' >DashBoard</h1>
    </div>
@@ -75,15 +81,16 @@ function DashBoard() {
       <h1 className='text-3xl p-2 text-center font-bold'>{details.total_order_amount?.total_order_amount}</h1>
     </div>
    </div>
-    <div className='h-200 w-200'>
-      {userData ? (
-          <div style={{ width: 700 }}>
-          <Bar data={userData} />
-        </div>
-      ) : (
-        <div>Loading...</div>
-      )}
+   {userData && (
+  <div className='h-200 w-200 mt-8 m-6'>
+    <div style={{ width: 700 }}>
+      <Bar data={userData} />
     </div>
+  </div>
+)}
+
+    </>
+          )}
    </section>
   )
 }

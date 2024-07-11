@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { addUser } from '../../Store/registerSlice';
 import { FaCheckCircle } from "react-icons/fa";
 import instance from '../../routes/axios';
+import axiosinstance from '../../routes/noauthinstance';
 
 
 
@@ -21,7 +22,7 @@ const Registration = () => {
   const [phonenumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [confirmpassword, setConfirmPassword] = useState('');
-  const [role,setRole]=useState('')
+  const [role,setRole]=useState('2')
   const [showOTPField, setShowOTPField] = useState(false);
   const [counter, setCounter] = useState(60); // Set the initial countdown value
   const [emailError, setEmailError] = useState('');
@@ -29,8 +30,6 @@ const Registration = () => {
   const [phonenumberError, setPhoneNumberError] = useState('');
   const [passwordError, setPasswordError]=useState('')
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
-  const [canResendOTP, setCanResendOTP] = useState(false);
-  const [OTPerror, setOTPError] = useState('');
   const [nameError, setNameError] = useState('');
   const [error,setError]=useState('')
 
@@ -47,9 +46,6 @@ const Registration = () => {
   const [hasBlurred, setHasBlurred] = useState(false);
   
   
-
- 
-
   const handleFocus = () => {
     setFocused(true);
   };
@@ -68,46 +64,8 @@ const Registration = () => {
   };
 
   
-  useEffect(() => {
-    if (otp.length === 4 && !verifyingOTP) {
-      console.log(otp)
-      setVerifyingOTP(true); // Set verifyingOTP to true to prevent further verification attempts
-      instance.post('verify-otp/', { email, otp })
-        .then((response) => {
-          console.log(response.data);
-          if (response.data.message === 'OTP verified successfully') {
-            setShowOTPField(false);
-            setEmailVerified(true);
-            setOTPError('');
-          } else {
-            setOTPError('Invalid OTP');
-            setVerifyingOTP(false);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-          setOTPError('Invalid OTP');
-          setVerifyingOTP(false);
-        })
-        
-    }
-  }, [otp]);
-
+ 
   
-  const handleResendOTP = () => {
-    console.log('i am here')
-    instance.post('generate-otp/', { email })
-      .then(response => {
-        
-        setCounter(60);
-        setCanResendOTP(false); 
-        setEmailVerified(false); 
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  };
-
   useEffect(() => {
     const interval = setInterval(() => {
       if (counter > 0) {
@@ -115,7 +73,7 @@ const Registration = () => {
       }
 
       if (counter === 0) {
-        setCanResendOTP(true); 
+        
         clearInterval(interval);
       }
     }, 1000);
@@ -222,68 +180,7 @@ const Registration = () => {
               }}
               onFocus={handleEmailFocus} emailfocused={emailfocused.toString()} required/>
               <span className="text-red-500">{emailError}</span>
-{/* 
-                {showOTPField && (
-  <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-70 bg-gray-900">
-    <div className="bg-white p-4 rounded-lg  justify-center flex flex-col items-center">
-      <h4 className="text-xl font-semibold text-black mb-4"> Enter your Email Otp for verification</h4>
-      <div className="flex space-x-2">
-  <input className='w-12 h-12 border-2 border-sky-600 text-black text-center'
-    type="text"
-    placeholder="0"
-    maxLength="1"
-    value={otp[0]}
-    onChange={(e) => setOTP(otp.substring(0, 0) + e.target.value + otp.substring(1, 4))}
-    disabled={counter === 0}
-  />
-  <input className='w-12 h-12 border-2 border-sky-600 text-black text-center'
-    type="text"
-    placeholder="0"
-    maxLength="1"
-    value={otp[1]}
-    onChange={(e) => setOTP(otp.substring(0, 1) + e.target.value + otp.substring(2, 4))}
-    disabled={counter === 0}
-  />
-  <input className='w-12 h-12 border-2 border-sky-600 text-black text-center'
-    type="text"
-    placeholder="0"
-    maxLength="1"
-    value={otp[2]}
-    onChange={(e) => setOTP(otp.substring(0, 2) + e.target.value + otp.substring(3, 4))}
-    disabled={counter === 0}
-  />
-  <input className='w-12 h-12 border-2 border-sky-600 text-black text-center'
-    type="text"
-    placeholder="0"
-    maxLength="1"
-    value={otp[3]}
-    onChange={(e) => setOTP(otp.substring(0, 3) + e.target.value)}
-    disabled={counter === 0}
-  />
-</div>
 
-       {OTPerror && <div className="text-red-500">{OTPerror}</div>}
-                    {canResendOTP ? (
-                    <div className='justify-center'>  <button  className='text-blue-400 m-2 border  ' onClick={handleResendOTP}>Resend OTP</button></div>
-                  ) : (
-                    <div className='text-red-500'>Time left: {counter} seconds</div>
-                  )}
-    </div>
-  </div>
-)}
-
-            {emailVerified && (  
-            <div className='text-black flex'>
-              <div className='flex justify-center items-center'>
-              <span><FaCheckCircle style={{ color: 'green' }} /></span>
-              </div>
-              <div className='flex justify-center items-center pl-2'>
-              <p className=''>Email verified</p>
-              </div>
-              </div>
-             )}  */}
-
-       
           <input  className="block w-full my-4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
           type="text" placeholder='Phone Number' value={phonenumber} onChange={(e) => {setPhoneNumber(e.target.value);if(!/^\+\d{12}$/.test(e.target.value)){
             setPhoneNumberError('Please enter a valid phone number (e.g., +918281851522).');
@@ -329,7 +226,6 @@ const Registration = () => {
           
          
           <select  className="block w-full my-4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" value={role} onChange={(e) => setRole(e.target.value)}>
-                <option value="">Select Role</option>
                 <option value='2'>Student</option>
                 <option value='3'>Teacher</option>  
           </select>

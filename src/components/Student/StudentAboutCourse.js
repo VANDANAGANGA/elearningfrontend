@@ -9,10 +9,13 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import instance from '../../routes/axios';
 import { baseUrl } from '../../utils/urls';
+import Loader from '../Loader';
 
 
 function StudentAboutCourse() {
   const [about,setAbout]=useState({})
+  const [loading, setLoading] = useState(true);
+  
 
   const course = useSelector((store) => store.course.course);
   
@@ -21,6 +24,7 @@ function StudentAboutCourse() {
     instance.get('studentcoursedetails/',{ params: { id: course } })
     .then((response) => {
       setAbout(response.data);
+      setLoading(false)
       console.log('about:',response.data)
     })
     .catch((error) => {
@@ -28,6 +32,12 @@ function StudentAboutCourse() {
     });
 }, [course]);
   return (
+    <>
+    {loading ? (
+      <Loader visible={loading} />
+    ) : (
+
+
     <div>
        <div className='m-2 p-2 text-black'>
       <div className='flex m-4'>
@@ -70,6 +80,8 @@ function StudentAboutCourse() {
       )}
 
     </div>
+    )}
+    </>
   )
 }
 

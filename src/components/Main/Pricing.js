@@ -35,8 +35,9 @@ function Pricing() {
 
   const handleSubmit = (price, month) => {
     console.log(user);
-    if (!user?.role_id) {
+    if (!user) {
       navigate('/login');
+      return;
     } else if (user.role !== 2) {
       Swal.fire({
         icon: 'info',
@@ -69,7 +70,7 @@ function Pricing() {
   
               const options = {
                 key: 'rzp_test_AZRz71dY2SuShj',
-                amount: parseInt(razorpayOrder.razorpay_order.amount / 100),
+                amount: parseInt(razorpayOrder.razorpay_order.amount),
                 currency: 'INR',
                 name: 'SKILLSAGA',
                 description: 'Test transaction',

@@ -1,7 +1,7 @@
 import {jwtDecode} from 'jwt-decode';
 
 const getUserRole = () => {
-   const token = localStorage.getItem('token');
+   const token = localStorage.getItem('access');
    if (token){
       const decodedToken = jwtDecode(token);
       console.log(decodedToken);

@@ -1,8 +1,5 @@
 import React from 'react'
-import Category from '../Main/Category'
 import { useState,useEffect } from 'react';
-import axios from 'axios';
-import Swal from 'sweetalert2';
 import { Avatar,Space } from 'antd';
 import { UserOutlined,StarFilled } from '@ant-design/icons';
 import { HiUsers } from "react-icons/hi";
@@ -11,11 +8,13 @@ import { useSelector,useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import { addCourse } from '../../Store/courseSlice';
 import instance from '../../routes/axios';
+import Loader from '../Loader';
 
 function StudentCourse() {
   const[data, setData] = useState([]);
   const navigate= useNavigate()
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
 
 
 
@@ -27,21 +26,25 @@ function StudentCourse() {
     navigate('/student/coursedetails')
    }
 
+   const handleCreateCourse=()=>{
+    navigate('/courses')
+ }
+
 
   useEffect(() => {
-       console.log('teacher_id',user.role_id)
       if (user){
 {       instance.get('studentcourse/',{ params: { id: user?.role_id } })
         .then(response => {
           console.log(response)
           setData(response.data);
+          setLoading(false)
         })
         .catch(error => {
           console.error('Error:', error);
         });
       }
     }
-  }, [user?.role_id]);
+  }, [user]);
     
     
 
@@ -54,6 +57,17 @@ function StudentCourse() {
       <div className='text-center '>
         <h1 className='text-center text-black text-4xl font-extrabold' >My Courses</h1>
       </div>
+      {loading ? (
+            <Loader visible={loading} />
+          ) : (
+           data.length==0?(
+      <div className='flex flex-col items-center justify-center m-4  h-96'>
+      <h1 className='text-red-500 font-bold text-2xl'>No courses enrolled yet? Amazing opportunities await you!</h1>
+      <button className='pl-2 hover:cursor-pointer text-green-500' onClick={handleCreateCourse}>
+      Click here to enroll a new Course
+    </button>
+      </div>
+    )  :(    
 
       <div className=" p-6 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         
@@ -89,6 +103,7 @@ function StudentCourse() {
            </div>
             )}
         </div>
+          ))}
       </section>
 
     

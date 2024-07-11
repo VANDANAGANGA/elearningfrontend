@@ -3,13 +3,14 @@ import Heading from './Heading';
 import axios from 'axios';
 import { useEffect } from 'react';
 import instance from '../../routes/axios';
+import axiosinstance from '../../routes/noauthinstance';
 
 function About() {
   const[data,setData]=useState()
 
   useEffect(() => {
     // Make an Axios GET request to your Django API endpoint
-    instance.get('about/')
+    axiosinstance.get('about/')
       .then(response => {
         // Once data is fetched, update the 'online' state with the data
         console.log(response.data)
@@ -18,7 +19,7 @@ function About() {
       .catch(error => {
         console.error('Error:', error);
       });
-  }, [data]);
+  }, []);
 
     const awrapper = [
         {

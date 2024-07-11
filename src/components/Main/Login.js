@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
-import image from '../../images/image.jpg'
-import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import {jwtDecode} from 'jwt-decode';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { addUser } from '../../Store/authSlice';
 import Swal from 'sweetalert2';
-import instance from '../../routes/axios';
+import axiosinstance from '../../routes/noauthinstance';
+import { addUser } from '../../Store/authSlice';
 
 
 
@@ -24,7 +22,6 @@ const Login =()=> {
     try {
       const decodedToken = jwtDecode(access);
       if (decodedToken) {
-        console.log(decodedToken);
         const role=decodedToken.role
         if (role==1){
           navigate('/admin')
@@ -60,15 +57,17 @@ const Login =()=> {
         password
     }
     try {
-        const response = await instance.post('login/',data)
+        const response = await axiosinstance.post('login/',data)
   
         if (response.status === 200) {
           // Request was successful, you can handle the response data here
           const responseData = response.data;
           console.log('Login successful:', responseData);
           console.log(responseData.access)
-          localStorage.setItem("token",responseData.access);
-          console.log('my token',localStorage.getItem('token'))
+          localStorage.setItem("access",responseData.access);
+          localStorage.setItem('refresh', responseData.refresh);
+          console.log('my token',localStorage.getItem('access'))
+          dispatch(addUser());
           handleRoleBasedNavigation(responseData.access);
         } else {
           Swal.fire({
@@ -121,7 +120,10 @@ const Login =()=> {
           type='submit'  >Login</button>
           </div>     
              </form>
+             <div className='flex justify-between'>
              <h4 className='text-black'>Don't have an Account? <sapn className='text-purple-700 cursor-pointer'><Link to='/register'>Sign Up</Link></sapn></h4>
+             <h4 className=' text-purple-700 text-end'><Link to='/forgotpassword'>Forgot password</Link></h4>
+             </div>
              <div className='text-center pt-2'>
              <h4 className='text-black'>By Clicking  Button Above.You Agree To Our  </h4>
              <h4 className='text-black'><span className='text-purple-700'>Terms of Use</span> And <span className='text-purple-700'>Privacy Policy</span></h4>

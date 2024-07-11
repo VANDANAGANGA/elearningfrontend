@@ -15,6 +15,7 @@ import { FaFilePdf } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import { baseUrl } from '../../utils/urls';
 import instance from '../../routes/axios';
+import Loader from '../Loader';
 
 
 
@@ -43,6 +44,7 @@ function  Quiz() {
     const[student,setStudent]=useState([])
     const[studentModal,setStudentModal]=useState(false)
     const[modalQuestion,setModalQuestion]=useState(false)
+    const [loading, setLoading] = useState(true);
 
     
     const course = useSelector((store) => store.course.course);
@@ -76,14 +78,6 @@ function  Quiz() {
         <span>{record.mark}</span>
         ),
      },
-    //  {
-    //    key: '4',
-    //    title: 'Result',
-    //    render: (record) => (
-    //       <div>
-           
-    //       </div>
-    //     )}
    ]
    
   const columns1 = [
@@ -128,10 +122,6 @@ function  Quiz() {
   
    },
  ]
-  
-  
-
-
     const handleSubmit = (e) => {
       e.preventDefault();
       const formData={
@@ -157,8 +147,7 @@ function  Quiz() {
           timer: 2000,})
       });
        
-      }
-       
+      } 
       const handleSubmitQuestion = (e) => {
         e.preventDefault();
         const formData={
@@ -190,17 +179,11 @@ function  Quiz() {
         });
          
         }
-
-       
-      
-      
-
-     
       useEffect(()=>{
-    
         instance.get('teacherquiz/',{ params: { id: course } })
         .then((response) => {
           setQuiz(response.data);
+          setLoading(false)
           console.log(response.data)
         })
         .catch((error) => {
@@ -242,7 +225,6 @@ function  Quiz() {
             setCounter((prevCounter) => prevCounter + 1);
           })
           .catch(error => {
-            // Handle error response
             console.error('There was an error deleting the quiz:', error);
             Swal.fire(
               'Error!',
@@ -276,7 +258,6 @@ function  Quiz() {
             setCounter((prevCounter) => prevCounter + 1);
           })
           .catch(error => {
-            // Handle error response
             console.error('There was an error deleting the question:', error);
             Swal.fire(
               'Error!',
@@ -293,30 +274,6 @@ function  Quiz() {
          <div className="relative p-4 m-4">
       <button className=' absolute  right-0 w-40 h-12 bg-[#1eb2a6] font-bold hover:bg-blue-400 px-4 py-2  rounded'  onClick={() => setShowModal(true)}>Add Quiz</button>
       </div>
-      
-      {/* {question && (
-        <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-75'>
-          <div className='p-8 w-1/2 h-3/4 rounded-lg'>
-            <button className='absolute top-4 right-4 text-red-400 text-3xl' onClick={() => setQuestion(null)}>
-              X
-            </button>
-            { question.map( (items,index) => (
-              <div  key={index} className='p-2 text-lg'>
-              <h1>{items.id}.{items.question}</h1>
-              <div className='flex justify-between'>
-              <h1>A.{items.option_a}</h1>
-              <h1>B.{items.option_b}</h1> 
-              <h1>C.{items.option_c}</h1>
-              <h1>D.{items.option_d}</h1>
-              </div>
-              Answere: {items.answer}
-              </div>
-            ))}
-          </div>
-        </div>
-      )} */}
-
- 
 {modalQuestion &&(
         <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-40'>
         <div className='  p-8 w-1/2 h-3/4 rounded-lg'>
@@ -326,10 +283,8 @@ function  Quiz() {
           <Table columns={columns1} dataSource={question}></Table>
           </div>
           </div>
-
       )
       }
-
 {studentModal&&(
         <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-40'>
         <div className='  p-8 w-1/2 h-3/4 rounded-lg'>
@@ -342,11 +297,9 @@ function  Quiz() {
 
       )
       }
-    
       {showModal ? (
             <>
-              
-              <div
+            <div
             className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
           >
             <div className="relative w-2/5 my-6 mx-auto max-w-3xl">
@@ -387,7 +340,16 @@ function  Quiz() {
           
         </>
       ) : null}
-         { quiz.map( (items) => (
+       {loading ? (
+            <Loader visible={loading} />
+          ) : (
+
+      quiz.length === 0 ? (
+  <div className='ml-8 pl-5 text-red-500 my-4 text-center pt-40 '>
+     <h1 className='text-2xl font-bold'> Develop interactive quizzes and assess student understanding</h1>
+  </div>
+) : (
+         quiz.map( (items) => (
         <div className='rounded-lg bg-white text-black max-w-[600px] pl-6 py-2 flex justify-between'>
             <div>
             <h2>Quiz {items.quiz.quiz_no}</h2>
@@ -405,7 +367,7 @@ function  Quiz() {
             
             </div>
         </div>
-          ))}
+          ))))}
 
 
 

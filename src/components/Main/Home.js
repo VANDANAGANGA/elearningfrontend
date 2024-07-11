@@ -33,7 +33,7 @@ const Home = () => {
 }}>
         <div className='container'>
           <div className='w-[700px]'>
-            <Heading subtitle='WELCOME TO SKILLSAGE' title='Best Online Education Expertise' />
+            <Heading subtitle='WELCOME TO SKILLSAGA' title='Best Online Education Expertise' />
             <p className="px-10 py-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
             <div className='p-8'>
             <button className="px-8 py-4 bg-white text-[#1eb2a6] font-semibold border border-transparent m-3 rounded cursor-pointer shadow-md transition duration-500 hover:text-white hover:bg-[#1eb2a6] hover:border-[#1eb2a6]" onClick={handleButtonClick}>

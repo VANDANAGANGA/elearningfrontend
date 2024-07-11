@@ -7,7 +7,7 @@ const Head = () => {
       <section className='m-[20px]'>
         <div className='flex justify-between'>
           <div>
-            <h1 style={{ margin: '-1', padding: '-1' }}  className="text-gray-500 font-[900] text-[35px] my-0 py-0">SKILLSAGE</h1>
+            <h1 style={{ margin: '-1', padding: '-1' }}  className="text-gray-500 font-[900] text-[35px] my-0 py-0">SKILLSAGA</h1>
             <span style={{ margin: '-1', padding: '-1' }}  className="text-gray-500 text-[18px] my-0 py-0 ">ONLINE EDUCATION & LEARNING</span>
           </div>
           

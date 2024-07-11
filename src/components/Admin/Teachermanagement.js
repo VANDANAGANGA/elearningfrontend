@@ -9,6 +9,7 @@ import Modal from 'react-modal';
 import { PiStudentFill } from "react-icons/pi";
 import instance from '../../routes/axios';
 import {baseUrl} from '../../utils/urls';
+import Loader from '../Loader';
 
 
 function Teachermanagement() {
@@ -23,6 +24,7 @@ function Teachermanagement() {
   const [modalUsername, setModalUsername] = useState("");
   const [isEditSuccessful, setIsEditSuccessful] = useState(0);
   const [course,setCourse]=useState([]);
+  const [loading, setLoading] = useState(true); 
  
   const showModal = (userId, action, username) => {
     setModalAction(action);
@@ -127,8 +129,8 @@ function Teachermanagement() {
     const fetchData = async () => {
       try {
         const response = await instance.get('teachermanagement/')
-        // axios.get('http://127.0.0.1:8000/api/teachermanagement/');
         setDataSource(response.data);
+        setLoading(false)
         console.log(response.data)
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -147,7 +149,6 @@ function Teachermanagement() {
     const handleEdit = async () => {
       try {
         const response = await  instance.put('teachermanagement/',{id:modalUserId})
-        // axios.put('http://127.0.0.1:8000/api/teachermanagement/', { id: modalUserId });
         console.log('User updated successfully', response.data);
         setIsModalVisible(false);
         setIsEditSuccessful((prevCounter) => prevCounter + 1); 
@@ -155,15 +156,6 @@ function Teachermanagement() {
         console.error('Error updating teacher:', error);
       }
     };
-  
-    // const showCourse = (course) => {
-      
-    //   console.log(course)// Accessing courses array directly
-    //   setCourse(course); 
-    //   console.log('course:',course)
-    //   setCourseModal(true);
-    // };
-  
     const handleCloseCourse = () => {
       setCourse([]);
     };
@@ -174,8 +166,14 @@ function Teachermanagement() {
        <div className='text-center m-2 '>
         <h1 className='text-center text-black text-4xl font-extrabold' >These Are Our Best Teachers</h1>
       </div>
+     
+
         <div className="relative p-4 m-2">
+        {loading ? (
+            <Loader visible={loading} />
+          ) : (
         <Table columns={columns} dataSource={dataSource}></Table>
+          )}
         <Modal
         isOpen={isModalVisible}
         onRequestClose={handleModalClose}
@@ -185,7 +183,7 @@ function Teachermanagement() {
             zIndex: 1000,
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center', // Set a higher value for zIndex
+            justifyContent: 'center', 
           },
           content: {
             zIndex: 1001,
@@ -218,7 +216,7 @@ function Teachermanagement() {
             zIndex: 1000,
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center', // Set a higher value for zIndex
+            justifyContent: 'center', 
           },
           content: {
             zIndex: 1001,

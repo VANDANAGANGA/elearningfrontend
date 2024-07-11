@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { FaCamera } from "react-icons/fa";
 import instance from '../../routes/axios';
 import { baseUrl } from '../../utils/urls';
+import Loader from '../Loader';
 
 function Profile() {
     const user=useSelector((store) => (store.authUser.user))
@@ -13,6 +14,7 @@ function Profile() {
     const[profile,setProfile]=useState({})
     const [modal, setModal] = useState(false);
     const [counter,setCounter]=useState(0)
+    const [loading, setLoading] = useState(true); 
     const [formData, setFormData] = useState({
         full_name: '',
         job_role: '',
@@ -73,6 +75,7 @@ function Profile() {
       instance.get('teacherprofile/',{ params: { teacher_id:user?.role_id } })
       .then((response) => {
         setProfile(response.data);
+        setLoading(false)
         setFormData(response.data)
         setImagePreviewUrl(`${baseUrl}${response.data.profile_pic}`);
         console.log(response.data)
@@ -88,10 +91,20 @@ function Profile() {
       <div className='text-center '>
         <h1 className='text-center text-black text-4xl font-extrabold' >My Profile</h1>
       </div>
+     
       <div className="relative p-4 m-4">
       <button className=' absolute right-0 text-black  text-3xl'  onClick={() => setModal(true)}><FaEdit /></button>
       </div>
-      <div className='m-11  mt-11 flex justify-between'>
+      {loading ? (
+            <Loader visible={loading} />
+          ) : (
+            !profile || Object.keys(profile).length === 0 ? (
+              <div className='flex items-center justify-center m-4  h-96'>
+              <h1 className='text-red-500 font-bold text-2xl'>Something Went Wrong Can't Load Your Profile</h1>
+              </div>
+            )  :(  
+            <div>
+        <div className='m-11  mt-11 flex justify-between'>
         <div className='justify-center text-center'>
             <div className=' w-[200px] h-[250px] bg-black'>
             <img src={`${baseUrl}${profile.profile_pic}`} alt="Profile" className="profile-pic"  style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -113,7 +126,9 @@ function Profile() {
         </div>
       </div>
       <h1 className='pl-6 pt-4 text-black font-semibold text-2xl' >Account:<span className='text-l font-semibold pl-2'>{profile.account}</span></h1>
+      </div>
 
+          ))}
       {modal && (
                  <>
               <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none" >
@@ -160,6 +175,7 @@ function Profile() {
                 </div>
                 </>
             )}
+          
       </section>
   )
 }

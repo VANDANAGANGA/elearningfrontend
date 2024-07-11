@@ -11,6 +11,7 @@ import { MdQuiz } from "react-icons/md";
 import jsPDF from 'jspdf';
 import instance from '../../routes/axios';
 import { baseUrl } from '../../utils/urls';
+import Loader from '../Loader';
 
 // pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 //   'pdfjs-dist/build/pdf.worker.min.js',
@@ -28,18 +29,16 @@ function StudentQuiz() {
    const[Modal,setModal]=useState(false)
    const [quizId,setQuizId]=useState()
    const [response,setResponse]=useState(null)
+   const [loading, setLoading] = useState(true);
 
-
-
-    
     const course = useSelector((store) => store.course.course);
     const user=useSelector((store) => (store.authUser.user))
 
       useEffect(()=>{
-    
         instance.get('studentquiz/',{ params: { id: course,student_id:user?.role_id } })
         .then((response) => {
           setQuiz(response.data);
+          setLoading(false) 
           console.log(response.data)
         })
         .catch((error) => {
@@ -91,55 +90,36 @@ function StudentQuiz() {
     setSelectedOption({ option, correct: false });
   }
 
-  // Move to next question or show total answers
   setTimeout(() => {
     if (currentQuestionIndex  === question.length) {
-      // Show total answers and responses
-      console.log(totalScore);
       console.log(selectedAnswers);
-
-    
       const generatePDF = () => {
         const doc = new jsPDF();
-        let yOffset = 20; // Initial vertical offset
-  
-        // Add total score
+        let yOffset = 20; 
         doc.setFontSize(16);
         doc.text(`Total Score: ${totalScore}/${selectedAnswers.length}`, 15, yOffset);
-        yOffset += 10; // Increase vertical offset
-  
-        // Add response header
+        yOffset += 10;    
         doc.setFontSize(18);
         doc.text('Response:', 15, yOffset);
-        yOffset += 10; // Increase vertical offset
-  
-        // Add response details
+        yOffset += 10; 
         selectedAnswers.forEach((item, index) => {
-          // Add question number and text
           doc.setFontSize(14);
           doc.text(`${index + 1}. ${item.question}`, 15, yOffset);
-          yOffset += 7; // Increase vertical offset
-  
-          // Add options
+          yOffset += 7; 
           Object.keys(item.options).forEach((key) => {
             const optionLabel = String.fromCharCode('A'.charCodeAt(0) + parseInt(key.slice(-1)));
             const optionText = `${optionLabel}. ${item.options[key]}`;
             doc.text(optionText, 20, yOffset);
-            yOffset += 5; // Increase vertical offset
+            yOffset += 5; 
           });
-  
-          // Add selected answer and correct answer
           doc.text(`Your Answer: ${item.selectedOption.toUpperCase()}`, 20, yOffset);
-          yOffset += 5; // Increase vertical offset
+          yOffset += 5; 
           doc.text(`Correct Answer: ${item.correctAnswer.toUpperCase()}`, 20, yOffset);
-          yOffset += 10; // Increase vertical offset
+          yOffset += 10; 
         });
-  
         return doc.output('blob');
       }
       const pdfBlob = generatePDF();
-
-
     const formData={
     student:user?.role_id,
     quiz:quizId,
@@ -168,8 +148,7 @@ function StudentQuiz() {
       
       }
        else {
-      // Move to next question
-      setSelectedOption(null); // Reset border color
+      setSelectedOption(null); 
       setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
     }
   }, 2000);
@@ -177,6 +156,11 @@ function StudentQuiz() {
 };
 
   return (
+    <>
+    {loading ? (
+            <Loader visible={loading} />
+          ) : (
+
     <div className='p-4'> 
         
         {question && question.length > 0 && (
@@ -224,7 +208,13 @@ function StudentQuiz() {
           </div>
         </div>
       )}
-         { quiz.map( (items) => (
+
+{ quiz.length==0?(
+      <div className='flex items-center justify-center m-4  h-96'>
+      <h1 className='text-red-500 font-bold text-2xl'>Stay tuned for fun quizzes to evaluate your understanding!</h1>
+      </div>
+    )  :( 
+          quiz.map( (items) => (
         <div className='flex my-2 justify-between w-2/5 items-center'>
 
             <h1 className=' text-2xl text-black font-bold'><span className='text-lg font-semibold px-6'>Quiz {items.quiz.quiz_no}</span> {items.quiz.quiz_title}</h1>
@@ -233,7 +223,7 @@ function StudentQuiz() {
             <button className='text-black text-lg border border-black px-2' onClick={()=>handleResult(items.student.response)}>Result</button>
             </div>
            </div>
-          ))}
+          )))}
           { Modal &&(
             <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-75'>
             <div className='p-8  w-full h-full rounded-lg'>
@@ -248,7 +238,6 @@ function StudentQuiz() {
             <div className='flex justify-between'>
             <ul className="flex flex-row space-x-4">
             {Object.keys(item.options).map((key) => {
-    // Convert key to alphabetical character ('A', 'B', 'C', 'D')
     const optionLabel = String.fromCharCode('A'.charCodeAt(0) + parseInt(key.slice(-1)) );
     return (
       <li key={key}>
@@ -287,6 +276,8 @@ function StudentQuiz() {
 
 
     </div>
+          )}
+    </>
   )
 }
 

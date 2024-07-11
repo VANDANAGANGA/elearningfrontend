@@ -3,6 +3,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { FaFacebookF,FaInstagramSquare,FaTwitter,FaYoutube } from "react-icons/fa";
 import instance from '../../routes/axios';
+import axiosinstance from '../../routes/noauthinstance';
 
 function Contact() {
 
@@ -21,7 +22,7 @@ function Contact() {
     const handleSubmit = async (e) => {
       e.preventDefault();
       try {
-      const response= await instance.post('contact/', formData);
+      const response= await axiosinstance.post('contact/', formData);
         if (response.status === 200) {
           Swal.fire({
               icon: 'success',

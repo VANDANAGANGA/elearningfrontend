@@ -8,6 +8,7 @@ import { UserOutlined,StarFilled } from '@ant-design/icons';
 import Modal from 'react-modal';
 import instance from '../../routes/axios';
 import  baseUrl  from '../../utils/urls';
+import Loader from '../Loader';
 
 function AdminCourses() {
   const [online, setOnline] = useState([]);
@@ -16,14 +17,15 @@ function AdminCourses() {
   const [modalCourseId, setModalCourseId] = useState(null);
   const [modalTitle, setModalTitle] = useState("");
   const [isEditSuccessful, setIsEditSuccessful] = useState(0);
+  const [loading, setLoading] = useState(true); 
+
+
 
   useEffect(() => {
-    instance.get('admincourse/')
-      // Make an Axios GET request to your Django API endpoint
-      // axios.get('http://localhost:8000/api/admincourse/')
+    instance.get('admincourse/') 
         .then(response => {
-          // Once data is fetched, update the 'online' state with the data
           setOnline(response.data);
+          setLoading(false)
           console.log(response.data)
         })
         .catch(error => {
@@ -43,12 +45,10 @@ function AdminCourses() {
       console.log('ia am here ')
       setIsModalVisible(false);
     };
-  
-    
+   
       const handleEdit = async () => {
         try {
           const response = await  instance.put('admincourse/',{id:modalCourseId})
-          // axios.put('http://127.0.0.1:8000/api/admincourse/', { id: modalCourseId });
           console.log('Course updated successfully', response.data);
           setIsModalVisible(false);
           setIsEditSuccessful((prevCounter) => prevCounter + 1); 
@@ -97,6 +97,15 @@ function AdminCourses() {
       <div className='text-center '>
         <h1 className='text-center text-black text-4xl font-extrabold' >Our All Courses Are Here</h1>
       </div>
+      
+ {loading ? (
+            <Loader visible={loading} />
+          ) : (
+    online.length==0?(
+      <div className='flex items-center justify-center m-4  h-96'>
+      <h1 className='text-red-500 font-bold text-2xl'>No courses available at the moment. Stay tuned for exciting updates!</h1>
+      </div>
+    )  :( 
     <div className=" p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ">
     {online.map(course => (
      <div className="bg-white shadow-md mb-2 rounded  transition-transform transform hover:scale-105">
@@ -132,6 +141,7 @@ function AdminCourses() {
     ))}
 
     </div>
+    ))}
     
 </section>
 )

@@ -11,6 +11,7 @@ import { useSelector,useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import { addCourse } from '../../Store/courseSlice';
 import instance from '../../routes/axios';
+import Loader from '../Loader';
 
 function TeacherCourse() {
   const[data, setData] = useState([]);
@@ -22,6 +23,7 @@ function TeacherCourse() {
   const navigate= useNavigate()
   const dispatch = useDispatch();
   const[counter,setCounter]=useState(0)
+  const [loading, setLoading] = useState(true);
 
 
   const user=useSelector((store) => (store.authUser.user))
@@ -68,12 +70,13 @@ function TeacherCourse() {
   };
 
   useEffect(() => {
-       console.log('teacher_id',user?.role_id)
+       console.log('teacher',user)
       if (user){
        instance.get('teachercourses/',{ params: { id: user?.role_id } })
         .then(response => {
           console.log(response)
           setData(response.data);
+          setLoading(false)
         })
         .catch(error => {
           console.error('Error:', error);
@@ -195,8 +198,13 @@ function TeacherCourse() {
           
         </>
       ) : null}
+      
+       {loading ? (
+            <Loader visible={loading} />
+          ) : (
 
-    {data.length==0?(
+
+    data.length==0?(
       <div className='h-fit pt-40 flex items-center justify-center'>
       <h1 className='text-red-500 font-bold text-2xl'>Create A Course And Start Teaching</h1>
       </div>
@@ -223,8 +231,8 @@ function TeacherCourse() {
             </div>
          ))}    
         </div>
-    )}
-    
+    )
+  )}
    
     
     

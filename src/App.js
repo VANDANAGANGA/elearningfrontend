@@ -33,6 +33,7 @@ import { adminRoutes } from "./routes/AdminRouter";
 import { teacherRoutes } from "./routes/TeacherRouter";
 import { studentRoutes } from "./routes/StudentRouter";
 import { AdminPrivateRoute, StudentPrivateRoute, TeacherPrivateRoute } from "./routes/PrivateRoute";
+import ForgotPassword from './components/Main/ForgotPassword';
 
 function App() {
   return (
@@ -66,6 +67,10 @@ const appRouter=createBrowserRouter([
       {
         path:"login",
         element:<Login/>
+      },
+      {
+        path:"forgotpassword",
+        element:<ForgotPassword/>
       },
       {
         path:"courses",

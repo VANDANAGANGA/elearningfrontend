@@ -8,6 +8,7 @@ import { MdDeleteForever } from "react-icons/md";
 import Swal from 'sweetalert2';
 import instance from '../../routes/axios';
 import { baseUrl } from '../../utils/urls';
+import Loader from '../Loader';
 
 
 function Modules() {
@@ -24,7 +25,7 @@ function Modules() {
     const[isVideo,setIsVideo]=useState(false)
     const [videoUrl, setVideoUrl] = useState("");
     const[counter,setCounter]=useState(0)
-     
+    const [loading, setLoading] = useState(true); 
     const course = useSelector((store) => store.course.course);
 
     
@@ -34,6 +35,7 @@ function Modules() {
       instance.get('module/',{ params: { id: course } })
       .then((response) => {
         setModules(response.data);
+        setLoading(false)
         console.log(response.data)
       })
       .catch((error) => {
@@ -228,8 +230,16 @@ const handleClick = (moduleId) => {
           </div>
          )} 
 
+{loading ? (
+            <Loader visible={loading} />
+          ) : (
+      modules.length === 0 ? (
+  <div className='ml-8 pl-5 text-red-500 my-4 text-center pt-40 '>
+     <h1 className='text-2xl font-bold'> Create Modules and Start Teaching</h1>
+  </div>
+) : (
 
-         {modules.map((items, index) => (
+         modules.map((items, index) => (
        <div className='rounded-lg border-[1px] border-black text-black bg-white max-w-[500px] pl-6 py-2 my-2 '>
         <div className=' flex justify-end pr-2'>
         <button className='border mr-2 px-2'  onClick={() => handleOpenChapters(items.module.id)}>Add chapters</button>
@@ -263,7 +273,7 @@ const handleClick = (moduleId) => {
 )}
        
      </div>
-     ) )}
+     ) )))}
         {isopen? (
             <>
               <div
