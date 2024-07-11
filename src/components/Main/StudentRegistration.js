@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
-import axiosinstance from '../../routes/nonauthaxios';
+import axiosinstance from '../../routes/noauthinstance';
 
 const StudentRegistration = () => {
   const [file, setFile] = useState('');

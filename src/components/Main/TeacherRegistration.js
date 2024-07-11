@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
-import axiosinstance from '../../routes/nonauthaxios';
+import axiosinstance from '../../routes/noauthinstance';
 
 
 
