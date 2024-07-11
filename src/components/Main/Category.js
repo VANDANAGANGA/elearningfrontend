@@ -1,6 +1,10 @@
 import React from "react"
 import Heading from "./Heading"
 import { useEffect, useState } from "react"
+<<<<<<< HEAD
+=======
+import instance from "../../routes/axios";
+>>>>>>> 5bcf73856b998e718a122817ea46c46317d4e38e
 import axiosinstance from "../../routes/noauthinstance";
 
 const Category = () => {

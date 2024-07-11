@@ -3,6 +3,10 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+<<<<<<< HEAD
+=======
+import instance from '../../routes/axios';
+>>>>>>> 5bcf73856b998e718a122817ea46c46317d4e38e
 import axiosinstance from '../../routes/noauthinstance';
 import Loader from '../Loader';
 

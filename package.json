@@ -59,7 +59,10 @@
     ]
   },
   "devDependencies": {
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5bcf73856b998e718a122817ea46c46317d4e38e
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "tailwindcss": "^3.4.1"
   }

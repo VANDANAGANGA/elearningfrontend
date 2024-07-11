@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Avatar from 'react-avatar';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5bcf73856b998e718a122817ea46c46317d4e38e
 import instance from '../../routes/axios';
 import { baseUrl } from '../../utils/urls';
 import { deleteUser } from '../../Store/authSlice';
@@ -31,14 +35,22 @@ function Navbar() {
   };
 
 
+<<<<<<< HEAD
    useEffect(() => {
+=======
+ 
+  useEffect(() => {
+>>>>>>> 5bcf73856b998e718a122817ea46c46317d4e38e
     const fetchProfilePic = async () => {
       if (!user?.id) return;
-
       try {
         const response = await instance.get('profilepic/', {
+<<<<<<< HEAD
           params: { id: user?.id },
 
+=======
+          params: { id: user.id },
+>>>>>>> 5bcf73856b998e718a122817ea46c46317d4e38e
         });
         setProfilePic(response.data.profile_pic);
       } catch (error) {
@@ -47,7 +59,7 @@ function Navbar() {
     };
 
     fetchProfilePic();
-  }, [user]); // Correctly set the dependency array
+  }, [user]); 
 
   return (
     <header className="mt-4">
